@@ -8,7 +8,7 @@ const Category = ({ navigation }) => {
 
   useEffect(() => {
     console.log('hihi')
-
+    
     setDummy([
         {
             title: "hi",
@@ -19,6 +19,7 @@ const Category = ({ navigation }) => {
             user: "ho"
         }
     ])
+
   }, []);
 
   const plus = () => {
@@ -31,7 +32,7 @@ const Category = ({ navigation }) => {
   
 const Styles = StyleSheet.create({
     container: {
-        geight: 60,
+        height: 60,
         felxDirection: 'row',
         justifyContent : "space-around",
         padding: 15,
@@ -43,7 +44,9 @@ const Styles = StyleSheet.create({
         },
         shdowOpacity: 0.12,
         shadowRadius: 5.46,
-        elevation:9,
+        elevation:5,
+        alignItems: 'center',
+    justifyContent: 'center',
     },
     item: {
         padding: 10,

@@ -53,9 +53,16 @@ const AudioScreen = () => {
             : undefined;
     }, [sound]);
 
+    const Styles = StyleSheet.create({
+        container: {
+            height: 2,
+        width: 100
+    }})
+
     return (
         <View>
             {dummy && <Text>{dummy.title}</Text>}
+
             <Button
                 title={sound ? 'Stop sound' : 'Start sound'}
                 onPress={sound ? stopSound : playSound}
@@ -68,6 +75,13 @@ const AudioScreen = () => {
                 />
             }
             <Button />
+
+            {dummy && <Text>{dummy.describe}</Text>}
+
+            {/* 선 */}
+            <View style= {Styles.container}></View>
+            {/* 댓글 */}
+            {/*  */}
         </View>
     );
 };

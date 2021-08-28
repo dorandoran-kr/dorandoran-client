@@ -1,11 +1,33 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, Button, FlatList } from 'react-native';
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    console.log('hihi')
+  }, []);
+
+  const plus = () => {
+    setCount(count + 1);
+  }
+
+  function reset () {
+    navigation.navigate('Audio')
+  }
 
   return (
     <View>
-      <Text>HOME</Text>
+      <Text>오늘도 재미있는 이야기를 해주세요.</Text>
+      <Button onPress={reset} title="RESET"/>
+      <Text>category</Text>
+      {/* TODO: side scroll category */}
+      <FlatList>
+        <Button onPress={reset} title="RESET"/>
+        <Button onPress={reset} title="RESET"/>
+        <Button onPress={reset} title="RESET"/>
+      </FlatList>
     </View>
   )
 }

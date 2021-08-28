@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Buttonm, Animated } from "react-native";
 import { Audio } from "expo-av";
+import Modal from 'react-native-simple-modal';
 
 const AudioScreen = () => {
     const [sound, setSound] = useState();
     const [pause, setPause] = useState(false);
     const [dummy, setDummy] = useState();
 
-
+state = {open:false};
     useEffect(() => {
         setDummy(
             {
@@ -55,8 +56,10 @@ const AudioScreen = () => {
 
     const Styles = StyleSheet.create({
         container: {
-            height: 2,
-        width: 100
+            height: 3,
+        width: '100%',
+        backgroundColor: 'white',
+
     }})
 
     return (
@@ -81,7 +84,11 @@ const AudioScreen = () => {
             {/* 선 */}
             <View style= {Styles.container}></View>
             {/* 댓글 */}
-            {/*  */}
+            <Modal animated animationType ="fade" visible = {this.props.visible}
+            transparent onRequestClose={() => this._handleDismiss()}>
+                <View style = {Styles.overlay}></View>
+            </Modal>
+         
         </View>
     );
 };

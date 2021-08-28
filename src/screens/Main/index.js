@@ -7,6 +7,7 @@ import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
 import Audio from "./Audio";
+import Category from "./Category";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,11 +20,11 @@ const Main = () => {
           backgroundColor: COLORS.white,
           borderTopWidth: 0,
           height: 80,
-          shadowColor: "#000",    
+          shadowColor: "#000",
           shadowOpacity: 0.30,
           shadowRadius: 3,
-          borderTopRightRadius:10,
-          borderTopLeftRadius:10,          
+          borderTopRightRadius: 10,
+          borderTopLeftRadius: 10,
         },
       }}
     >
@@ -43,6 +44,19 @@ const Main = () => {
       <Tab.Screen
         name="Audio"
         component={Audio}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="camera"
+              size={24}
+              color={focused ? COLORS.green : COLORS.lightGray}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Category"
+        component={Category}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

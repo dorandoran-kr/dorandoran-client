@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 
-const Home = ({ navigation }) => {
+const Category = ({ navigation }) => {
   const [count, setCount] = useState(1);
 
   useEffect(() => {
@@ -32,4 +32,4 @@ const Home = ({ navigation }) => {
   )
 }
 
-export default Home;
+export default Category;

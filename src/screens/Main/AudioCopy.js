@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Buttonm, Animated } from "react-native";
+import { Text, View, StyleSheet, Button, Animated, TouchableOpacity, Modal, SafeAreaView } from "react-native";
 import { Audio } from "expo-av";
-import Modal from 'react-native-simple-modal';
+// import Modal from 'react-native-simple-modal';
 
 const AudioScreen = () => {
     const [sound, setSound] = useState();
     const [pause, setPause] = useState(false);
     const [dummy, setDummy] = useState();
+    const [open, setOpen] = useState(false);
+    const [offset, setOffset] = useState(0);
 
-state = {open:false};
     useEffect(() => {
         setDummy(
             {
@@ -16,7 +17,7 @@ state = {open:false};
                 user: "a",
                 describe: "blabla",
             }
-        , []);    
+            , []);
     }, [])
 
     async function playSound() {
@@ -57,16 +58,18 @@ state = {open:false};
     const Styles = StyleSheet.create({
         container: {
             height: 3,
-        width: '100%',
-        backgroundColor: 'white',
+            width: '100%',
+            backgroundColor: 'white',
 
-    }})
+        }
+    })
+    console.log(open);
 
     return (
-        <View>
+        <SafeAreaView>
             {dummy && <Text>{dummy.title}</Text>}
 
-            <Button
+            {/* <Button
                 title={sound ? 'Stop sound' : 'Start sound'}
                 onPress={sound ? stopSound : playSound}
             />
@@ -76,20 +79,46 @@ state = {open:false};
                     title={pause ? 'Play' : 'Pause'}
                     onPress={pause ? restartSound : pauseSound}
                 />
-            }
-            <Button />
+            } */}
 
             {dummy && <Text>{dummy.describe}</Text>}
 
             {/* 선 */}
-            <View style= {Styles.container}></View>
+            <View style={Styles.container}></View>
+
             {/* 댓글 */}
-            <Modal animated animationType ="fade" visible = {this.props.visible}
-            transparent onRequestClose={() => this._handleDismiss()}>
-                <View style = {Styles.overlay}></View>
-            </Modal>
-         
-        </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffff00', height:100, width:100 }}>
+                <TouchableOpacity onPress={() => setOpen(!open)}>
+                    <Text>댓글</Text>
+                </TouchableOpacity>
+
+                <Modal
+                    overlayBackground={'rgba(0,0,0,0.75'}
+                    animationType={"slide"}
+                    // presentationStyle={'pageSheet'}
+                    visible={open}
+                    style={{ alignItems: 'center', height: '50%' }}
+                    >
+                    <View>
+                        <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world</Text>
+                        <TouchableOpacity style={{ margin: 5 }} onPress={() => setOffset(-100)}>
+                            <Text> Move modal up</Text>
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={{ margin: 5 }}
+                            onPress={() => setOffset(0)}>
+                            <Text> Reset modal position</Text>
+                        </TouchableOpacity> */}
+                        <TouchableOpacity
+                            style={{ margin: 5 }}
+                            onPress={() => setOpen(false)}>
+                            <Text> Close modal</Text>
+
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </View>
+        </SafeAreaView>
+
     );
 };
 

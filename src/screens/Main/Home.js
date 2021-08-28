@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, Button, FlatList, SafeAreaView } from 'react-native';
 
 const Home = ({ navigation }) => {
   const [count, setCount] = useState(1);
@@ -18,7 +18,7 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <SafeAreaView>
       <Text>오늘도 재미있는 이야기를 해주세요.</Text>
       <Button onPress={reset} title="RESET"/>
       <Text>category</Text>
@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
         <Button onPress={reset} title="RESET"/>
         <Button onPress={reset} title="RESET"/>
       </FlatList>
-    </View>
+    </SafeAreaView>
   )
 }
 

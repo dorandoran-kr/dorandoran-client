@@ -29,8 +29,8 @@ const Main = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="AudioCopy"
+        component={AudioCopy}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather
@@ -41,9 +41,10 @@ const Main = () => {
           ),
         }}
       />
+      
       <Tab.Screen
-        name="AudioCopy"
-        component={AudioCopy}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

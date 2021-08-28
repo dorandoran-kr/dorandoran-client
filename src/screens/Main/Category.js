@@ -33,7 +33,7 @@ const Category = ({ navigation }) => {
 const Styles = StyleSheet.create({
     container: {
         height: 60,
-        felxDirection: 'row',
+        flexDirection: 'row',
         justifyContent : "space-around",
         padding: 15,
         backgroundColor: 'white',
@@ -42,7 +42,7 @@ const Styles = StyleSheet.create({
             width:0,
             height:10,
         },
-        shdowOpacity: 0.12,
+        shadowOpacity: 0.12,
         shadowRadius: 5.46,
         elevation:5,
         alignItems: 'center',

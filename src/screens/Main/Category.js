@@ -61,7 +61,7 @@ const Styles = StyleSheet.create({
       </View>
         
         <FlatList data = {dummy} 
-        renderItem = {({item}) => <Text style = {Styles.item}>{item.title}{item.user}</Text>}/>
+        renderItem = {({item}) => <Text style = {Styles.item}>{item.title}   {item.user}</Text>}/>
     </View>
   )
 }

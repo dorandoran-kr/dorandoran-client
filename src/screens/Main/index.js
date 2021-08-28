@@ -6,7 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
-import Audio from "./Audio";
+import AudioCopy from "./AudioCopy";
 import Category from "./Category";
 
 const Tab = createBottomTabNavigator();
@@ -42,8 +42,8 @@ const Main = () => {
         }}
       />
       <Tab.Screen
-        name="Audio"
-        component={Audio}
+        name="AudioCopy"
+        component={AudioCopy}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

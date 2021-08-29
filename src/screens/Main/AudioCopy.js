@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Animated, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import { Text, View, StyleSheet, Button, Animated, TouchableOpacity, Modal, SafeAreaView, FlatList } from "react-native";
 import { Audio } from "expo-av";
+import { TapGestureHandler } from "react-native-gesture-handler";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 // import Modal from 'react-native-simple-modal';
 
 const AudioScreen = () => {
     const [sound, setSound] = useState();
     const [pause, setPause] = useState(false);
-    const [dummy, setDummy] = useState();
+    const [info, setInfo] = useState();
     const [open, setOpen] = useState(false);
     const [offset, setOffset] = useState(0);
+    const [Dummy, setDummy] = useState();
 
     useEffect(() => {
-        setDummy(
+        setInfo(
             {
                 title: "hi",
                 user: "a",
@@ -19,6 +22,20 @@ const AudioScreen = () => {
             }
             , []);
     }, [])
+
+    useEffect(() => {
+        setDummy([
+            {
+                date: "8/29",
+                text: "댓글 들어갈 자리입니다."
+            },
+            {
+                date: "9/1",
+                text: "히힛"
+            }
+        ])
+
+    }, []);
 
     async function playSound() {
         console.log("Loading Sound");
@@ -66,8 +83,8 @@ const AudioScreen = () => {
     console.log(open);
 
     return (
-        <SafeAreaView>
-            {dummy && <Text>{dummy.title}</Text>}
+        <View>
+            {info && <Text>{info.title}</Text>}
 
             {/* <Button
                 title={sound ? 'Stop sound' : 'Start sound'}
@@ -81,43 +98,44 @@ const AudioScreen = () => {
                 />
             } */}
 
-            {dummy && <Text>{dummy.describe}</Text>}
+            {info && <Text>{info.describe}</Text>}
 
             {/* 선 */}
             <View style={Styles.container}></View>
 
             {/* 댓글 */}
             <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffff00', height:100, width:100 }}>
-                <TouchableOpacity onPress={() => setOpen(!open)}>
+                <TouchableOpacity onPress={() => setOpen(true)}>
                     <Text>댓글</Text>
                 </TouchableOpacity>
 
                 <Modal
-                    overlayBackground={'rgba(0,0,0,0.75'}
-                    animationType={"slide"}
-                    // presentationStyle={'pageSheet'}
+                    animationType={"fade"}
                     visible={open}
-                    style={{ alignItems: 'center', height: '50%' }}
+                    transparent={true}
+                    presentationStyle={"formsheet"}
                     >
-                    <View>
-                        <Text style={{ fontSize: 20, marginBottom: 10 }}>Hello world</Text>
-                        <TouchableOpacity style={{ margin: 5 }} onPress={() => setOffset(-100)}>
-                            <Text> Move modal up</Text>
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity style={{ margin: 5 }}
-                            onPress={() => setOffset(0)}>
-                            <Text> Reset modal position</Text>
-                        </TouchableOpacity> */}
-                        <TouchableOpacity
-                            style={{ margin: 5 }}
-                            onPress={() => setOpen(false)}>
-                            <Text> Close modal</Text>
+                    <View style={{alignItems: 'center', justifyContent:'center'}}>
+                        <View style={{height:'50%', backgroundColor:"#ff00ff", marginTop:50, marginHorizontal:10}}>
 
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                style={{ margin: 5 }}
+                                onPress={() => setOpen(false)}>
+                                <Text> Close modal </Text>
+                            </TouchableOpacity>
+                           
+                            <FlatList data = {Dummy} 
+                            renderItem = {({item}) => <Text style = {Styles.item}>{item.title}    {item.user}</Text>}/>
+                           
+                            
+
+                            
+                        </View>
                     </View>
+                        
                 </Modal>
             </View>
-        </SafeAreaView>
+        </View>
 
     );
 };

@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 
 import Login from './Login';
-import Phone from './Phone';
+import Password from './Password';
 import Signup from './Signup';
 
 const Join = () => {
@@ -14,7 +14,7 @@ const Join = () => {
       initialRouteName={"MyPage"}
     >
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Phone" component={Phone} />
+      <Stack.Screen name="Password" component={Password} />
       <Stack.Screen name="Signup" component={Signup} />
     </Stack.Navigator>
   )

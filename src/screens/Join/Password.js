@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const Phone = () => {
+const Password = () => {
   return (
     <Text>ho</Text>
   )
 }
 
-export default Phone;
+export default Password;

@@ -25,7 +25,6 @@ const Login = () => {
     }
     onChangeID(newText);
   }
-
   return (
     <View style={Styles.containerfull}>
       <View style={Styles.header}>

@@ -13,6 +13,7 @@ import axios from "axios";
 
 import { COLORS, FONTS, SIZES } from "../../components/theme";
 import Styles from "./styles.js";
+import { CommonActions } from "@react-navigation/native";
 
 const Category = ({ navigation, route }) => {
   const [posts, setPosts] = useState();
@@ -68,13 +69,19 @@ const Category = ({ navigation, route }) => {
         style={Styles.category_listcontainer}
         data={posts}
         renderItem={({ item }) => (
-          <View style={Styles.category_list}>
-            <View style={Styles.category_profile} />
-            <View style={Styles.category_textcontainer}>
-              <Text style={Styles.category_text1}>{item.title}</Text>
-              <Text style={Styles.category_text2}>{item.description}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(CommonActions.navigate('AudioCopy', {id: item.id}))
+            }}
+          >
+            <View style={Styles.category_list}>
+              <View style={Styles.category_profile} />
+              <View style={Styles.category_textcontainer}>
+                <Text style={Styles.category_text1}>{item.title}</Text>
+                <Text style={Styles.category_text2}>{item.description}</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
 

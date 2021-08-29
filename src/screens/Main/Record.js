@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Animated,
   Pressable,
+  Image
 } from "react-native";
 import { Audio } from "expo-av";
 // import LinearGradient from "react-native-linear-gradient";
@@ -83,12 +84,21 @@ const Record = () => {
   }
 
   return (
+    
     <View style={styles.container}>
+      <Image 
+              source={{uri:'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif'}}
+              style={{
+                width: 72,
+                height: 72,
+              }}
+              />
+
       <Button
         title={recording ? "Stop Recording" : "Start Recording"}
         onPress={recording ? stopRecording : startRecording}
       />
-
+      
       {
         uri &&
         <Button 

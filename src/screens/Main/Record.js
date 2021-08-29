@@ -19,6 +19,7 @@ const Record = () => {
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
   const [directory, setDirectory] = useState();
+  const [isRecording, setIsRecording] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -36,6 +37,7 @@ const Record = () => {
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
       );
       setRecording(recording);
+      setIsRecording(true);
     } catch (error) {
       console.error("Failed to start recording", error);
     }
@@ -46,6 +48,7 @@ const Record = () => {
     await recording.stopAndUnloadAsync();
     const uri = recording.getURI();
     setUri(uri);
+    setIsRecording(false);
   };
 
   const playSound = async () => {
@@ -74,8 +77,8 @@ const Record = () => {
       type: `audio/${fileType}`
     });
 
-    try {     
-      const res = await axios.post('http://3.35.66.47/uploads', formData); 
+    try {
+      const res = await axios.post('http://3.35.66.47/uploads', formData);
       setDirectory(res.data.directory);
       setUri(null);
     } catch (error) {
@@ -84,31 +87,37 @@ const Record = () => {
   }
 
   return (
-    
+
     <View style={styles.container}>
-      <Image 
-              source={{uri:'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif'}}
-              style={{
-                width: 72,
-                height: 72,
-              }}
-              />
+
+      {
+        isRecording
+          ? <Image
+            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif' }}
+            style={{
+              width: 72,
+              height: 72,
+            }}
+          />
+          : <View></View>
+      }
+
 
       <Button
         title={recording ? "Stop Recording" : "Start Recording"}
         onPress={recording ? stopRecording : startRecording}
       />
-      
+
       {
         uri &&
-        <Button 
+        <Button
           title="녹음 완료? 업로드!"
           onPress={upload}
         />
       }
-      
+
       {
-        (directory && !recording) && 
+        (directory && !recording) &&
         <View>
           <Text>업로드 완료!</Text>
           <Text>{directory}</Text>

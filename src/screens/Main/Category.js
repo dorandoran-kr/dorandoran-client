@@ -5,12 +5,13 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import RNPickerSelect from "react-native-picker-select";
 import axios from "axios";
 
-import { COLORS, FONTS } from "../../components/theme";
+import { COLORS, FONTS, SIZES } from "../../components/theme";
 import Styles from "./styles.js";
 
 const Category = ({ navigation, route }) => {
@@ -18,6 +19,13 @@ const Category = ({ navigation, route }) => {
   const [category, setCategory] = useState();
 
   const { id } = route.params;
+
+  const placeholder = {
+    label: "기본순",
+    value: null,
+    color: "#000000",
+    fontFamily: FONTS.NanumSquareEB,
+  };
 
   useEffect(() => {
     (async () => {
@@ -28,47 +36,15 @@ const Category = ({ navigation, route }) => {
     })();
   }, [id]);
 
-  function reset () {
-    navigation.navigate('Home')
-  }
-  
-const Styles = StyleSheet.create({
-    container: {
-        height: 60,
-        flexDirection: 'row',
-        justifyContent : "space-around",
-        padding: 15,
-        backgroundColor: 'white',
-        shadowColor: '#000',
-        shadowOffset: {
-            width:0,
-            height:10,
-        },
-        shadowOpacity: 0.12,
-        shadowRadius: 5.46,
-        elevation:5,
-        alignItems: 'center',
-    justifyContent: 'center',
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        height: 44,
-      },
-})
-  const placeholder = {
-    label: "기본순",
-    value: null,
-    color: "#000000",
-    fontFamily: FONTS.NanumSquareEB,
-  };
-
   return (
     <View style={Styles.containerfull}>
-      <View style={{
-        marginTop:124, 
-        //flexDirection:'row', alignItems:'center', justifyContent:'flex-end', 
-        marginLeft:SIZES.width-124, }}>
+      <View
+        style={{
+          marginTop: 124,
+          //flexDirection:'row', alignItems:'center', justifyContent:'flex-end',
+          marginLeft: SIZES.width - 124,
+        }}
+      >
         <View>
           <RNPickerSelect
             placeholder={placeholder}

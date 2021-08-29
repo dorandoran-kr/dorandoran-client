@@ -7,8 +7,7 @@ import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
 import AudioCopy from "./AudioCopy";
-import Audio from "./Audio";
-import Record from './Record';
+import Record from "./Record";
 import Category from "./Category";
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +22,7 @@ const Main = () => {
           borderTopWidth: 0,
           height: 80,
           shadowColor: "#000",
-          shadowOpacity: 0.30,
+          shadowOpacity: 0.3,
           shadowRadius: 3,
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
@@ -31,24 +30,10 @@ const Main = () => {
       }}
     >
       <Tab.Screen
-        name="AudioCopy"
-        component={AudioCopy}
-        options={{
-          // tabBarVisible:false,
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="camera"
-              size={24}
-              color={focused ? COLORS.green : COLORS.lightGray}
-            />
-          ),
-        }}
-      />
-      
-      <Tab.Screen
         name="Home"
         component={Home}
         options={{
+          tabBarVisible:false,
           tabBarIcon: ({ focused }) => (
             <Feather
               name="camera"
@@ -58,6 +43,21 @@ const Main = () => {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="AudioCopy"
+        component={AudioCopy}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="camera"
+              size={24}
+              color={focused ? COLORS.green : COLORS.lightGray}
+            />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name="Record"
         component={Record}
@@ -71,10 +71,7 @@ const Main = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="Category"
-        component={Category}
-      />
+      <Tab.Screen name="Category" component={Category} />
     </Tab.Navigator>
   );
 };

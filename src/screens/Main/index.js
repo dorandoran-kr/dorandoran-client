@@ -7,7 +7,7 @@ import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
 import Audio from "./Audio";
-import Video from './Video';
+import Record from './Record';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,8 +55,8 @@ const Main = () => {
         }}
       />
       <Tab.Screen
-        name="Video"
-        component={Video}
+        name="Record"
+        component={Record}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

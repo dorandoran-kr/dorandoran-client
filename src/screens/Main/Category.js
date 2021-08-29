@@ -37,16 +37,11 @@ const Category = ({ navigation, route }) => {
 
   return (
     <View style={Styles.containerfull}>
-      <View
-        style={{
-          marginTop: 124,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          marginHorizontal: 24,
-        }}
-      >
-        <View style={{ marginRight: 10 }}>
+      <View style={{
+        marginTop:124, 
+        //flexDirection:'row', alignItems:'center', justifyContent:'flex-end', 
+        marginLeft:SIZES.width-124, }}>
+        <View>
           <RNPickerSelect
             placeholder={placeholder}
             onValueChange={(value) => console.log(value)}
@@ -62,7 +57,7 @@ const Category = ({ navigation, route }) => {
             ]}
           />
         </View>
-        <Icon name="chevron-down" size={20} color={COLORS.gray} />
+        {/* <Icon name="chevron-down" size={20} color={COLORS.gray}/> */}
       </View>
 
       <FlatList

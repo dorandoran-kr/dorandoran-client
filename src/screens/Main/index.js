@@ -33,6 +33,7 @@ const Main = () => {
         name="Home"
         component={Home}
         options={{
+          // tabBarVisible:false,
           tabBarIcon: ({ focused }) => (
             <Feather
               name="camera"

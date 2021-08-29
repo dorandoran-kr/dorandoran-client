@@ -1,49 +1,31 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, Image, TouchableOpacity } from 'react-native';
-import { COLORS } from '../../components/theme';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+
 import Styles from './styles';
-
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630235845437Component-Card-%E2%9A%A1Place-Card%20Solid%20Error%402x.png",
-    title: "MY",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630236027517Component-Card-%E2%9A%A1Place-Card%20Solid%20Error2%402x.png",
-    title: "꿀팁",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "요리",
-  },
-];
-
-const Item = ({ title }) => (
-  <View style={Styles.main_categorycard}>
-    <Image source={{uri:item.uri}} style={{width:120,height:120 }}/>
-    <Text style={Styles.main_categorytext}>{title}</Text>
-  </View>
-);
+import { CommonActions } from '@react-navigation/native';
 
 const Home = ({ navigation }) => {
-  const [count, setCount] = useState(1);
+  const [categories, setCategories] = useState();
 
   useEffect(() => {
-    console.log('hihi')
+    (async () => {
+      const resp = await axios.get('http://3.35.66.47/categories');
+
+      setCategories(resp.data);
+    })();
   }, []);
 
-  function reset () {
-    navigation.navigate('Audio')
-  }
-  const renderItem = ({ item }) => (      
-    // <Item title={item.title} />
-    <View style={Styles.main_categorycard}>
-      <Image source={{uri:item.uri}} style={{width:120,height:120, borderRadius:10}}/>
-      <Text style={Styles.main_categorytext}>{item.title}</Text>
-    </View>
+  const renderItem = ({ item }) => (   
+    <TouchableOpacity
+      onPress={() => {navigation.dispatch(CommonActions.navigate('Category', {id: item.id}))}}
+    >
+      <View style={Styles.main_categorycard}>
+        <Image source={{uri:item.thumbnailUrl}} style={{width:120,height:120, borderRadius:10}}/>
+        <Text style={Styles.main_categorytext}>{item.title}</Text>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -66,7 +48,7 @@ const Home = ({ navigation }) => {
       <View style={Styles.main_categorycontainer}>
         <Text style={Styles.main_categorytitle}>카테고리</Text>
         <FlatList
-          data={DATA}
+          data={categories}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           horizontal
@@ -74,17 +56,6 @@ const Home = ({ navigation }) => {
           ListFooterComponent={<View style={{width:24}}/>}
         />
       </View>
-
-      
-    
-
-      {/* TODO: side scroll category */}
-      {/* <FlatList>
-        <Button onPress={reset} title="RESET"/>
-        <Button onPress={reset} title="RESET"/>
-        <Button onPress={reset} title="RESET"/>
-      </FlatList> */}
-      
     </View>
   )
 }

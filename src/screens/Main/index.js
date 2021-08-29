@@ -33,7 +33,7 @@ const Main = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarVisible:false,
+          tabBarVisible: false,
           tabBarIcon: ({ focused }) => (
             <Feather
               name="camera"
@@ -48,6 +48,7 @@ const Main = () => {
         name="AudioCopy"
         component={AudioCopy}
         options={{
+          tabBarVisible: false,
           tabBarIcon: ({ focused }) => (
             <Feather
               name="camera"
@@ -62,6 +63,7 @@ const Main = () => {
         name="Record"
         component={Record}
         options={{
+          tabBarVisible: false,
           tabBarIcon: ({ focused }) => (
             <Feather
               name="camera"
@@ -71,7 +73,20 @@ const Main = () => {
           ),
         }}
       />
-      <Tab.Screen name="Category" component={Category} />
+      <Tab.Screen 
+        name="Category" 
+        component={Category} 
+        options={{
+          tabBarVisible: false,
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="camera"
+              size={24}
+              color={focused ? COLORS.green : COLORS.lightGray}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

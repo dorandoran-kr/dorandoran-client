@@ -33,7 +33,12 @@ const Home = ({ navigation }) => {
       <View style={Styles.main_bluebox}>
         <Text style={Styles.main_blueboxtext}>오늘도 재미있는</Text>
         <Text style={Styles.main_blueboxtext}>이야기를 해주세요</Text>
-        <TouchableOpacity style={{justifyContent:'center',alignItems:'center',marginTop:35}}>
+        <TouchableOpacity 
+          style={{justifyContent:'center',alignItems:'center',marginTop:35}}
+          onPress={() => {
+            navigation.dispatch(CommonActions.navigate('Record'))
+          }}
+        >
           <View style={Styles.main_blueboxbutton}>
             <Image 
               source={{uri:'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630234264749microphone%402x.png'}}

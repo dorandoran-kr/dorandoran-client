@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, Animated, TouchableOpacity, Modal, SafeAreaView, FlatList } from "react-native";
+import { Text, View, StyleSheet, Button, Animated, TouchableOpacity, Modal, SafeAreaView, FlatList, ScrollView} from "react-native";
 import { Audio } from "expo-av";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { Colors } from "react-native/Libraries/NewAppScreen";
@@ -24,19 +24,22 @@ const AudioScreen = () => {
     }, [])
 
     useEffect(() => {
+        console.log('hihi')
+        
         setDummy([
             {
+                text:"댓글 들어갈 자리입니다.",
                 date: "8/29",
-                text: "댓글 들어갈 자리입니다."
             },
             {
-                date: "9/1",
-                text: "히힛"
+                text:"하하 쉽지않네요.",
+                date: "8/30",
             }
         ])
+    
+      }, []);
 
-    }, []);
-
+    
     async function playSound() {
         console.log("Loading Sound");
         const { sound } = await Audio.Sound.createAsync({
@@ -78,7 +81,13 @@ const AudioScreen = () => {
             width: '100%',
             backgroundColor: 'white',
 
-        }
+        },
+        item: {
+            padding:10,
+            fontSize: 18,
+            height: 44,
+            
+        },
     })
     console.log(open);
 
@@ -103,20 +112,22 @@ const AudioScreen = () => {
             {/* 선 */}
             <View style={Styles.container}></View>
 
+
             {/* 댓글 */}
             <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffff00', height:100, width:100 }}>
                 <TouchableOpacity onPress={() => setOpen(true)}>
                     <Text>댓글</Text>
                 </TouchableOpacity>
 
+
                 <Modal
-                    animationType={"fade"}
+                    animationType={"slide"}
                     visible={open}
                     transparent={true}
                     presentationStyle={"formsheet"}
                     >
                     <View style={{alignItems: 'center', justifyContent:'center'}}>
-                        <View style={{height:'50%', backgroundColor:"#ff00ff", marginTop:50, marginHorizontal:10}}>
+                        <View style={{height:'50%', backgroundColor:"white", marginTop:50, marginHorizontal:10}}>
 
                             <TouchableOpacity
                                 style={{ margin: 5 }}
@@ -125,19 +136,23 @@ const AudioScreen = () => {
                             </TouchableOpacity>
                            
                             <FlatList data = {Dummy} 
-                            renderItem = {({item}) => <Text style = {Styles.item}>{item.title}    {item.user}</Text>}/>
-                           
+                            renderItem = {({item}) => <Text style={Styles.item}> {item.text}    {item.date}</Text>}/>
+                            
+                                
                             
 
                             
                         </View>
                     </View>
-                        
+            
                 </Modal>
             </View>
         </View>
 
     );
 };
+
+
+
 
 export default AudioScreen;

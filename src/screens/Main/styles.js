@@ -30,7 +30,7 @@ const Styles = StyleSheet.create({
   },
   main_bluebox:{
     width:"100%",
-    height:SIZES.height*0.5,
+    height:SIZES.height*0.55,
     backgroundColor:"#99BEF0",
     borderBottomLeftRadius: 30,
     paddingTop:100,     
@@ -53,6 +53,7 @@ const Styles = StyleSheet.create({
     },
     shadowOpacity: 0.05,
     shadowRadius: 5,
+    elevation:2,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -87,9 +88,13 @@ const Styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
+      height: 2,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 2,
+    borderWidth:0.3,
+    borderColor:COLORS.lightGray
   },
   
   category_listcontainer:{

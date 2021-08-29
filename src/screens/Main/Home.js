@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, Image } from 'react-native';
+import { View, Text, Button, FlatList, Image, TouchableOpacity } from 'react-native';
 import { COLORS } from '../../components/theme';
 import Styles from './styles';
 
@@ -51,7 +51,7 @@ const Home = ({ navigation }) => {
       <View style={Styles.main_bluebox}>
         <Text style={Styles.main_blueboxtext}>오늘도 재미있는</Text>
         <Text style={Styles.main_blueboxtext}>이야기를 해주세요</Text>
-        <View style={{justifyContent:'center',alignItems:'center',marginTop:35}}>
+        <TouchableOpacity style={{justifyContent:'center',alignItems:'center',marginTop:35}}>
           <View style={Styles.main_blueboxbutton}>
             <Image 
               source={{uri:'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630234264749microphone%402x.png'}}
@@ -61,7 +61,7 @@ const Home = ({ navigation }) => {
               }}
             ></Image>
           </View>
-        </View>          
+        </TouchableOpacity>          
       </View>
       <View style={Styles.main_categorycontainer}>
         <Text style={Styles.main_categorytitle}>카테고리</Text>

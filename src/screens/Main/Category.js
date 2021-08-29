@@ -86,7 +86,11 @@ const Category = ({ navigation, route }) => {
       />
 
       <View style={Styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.dispatch(CommonActions.navigate('Home'))
+          }}
+        >
           <Icon name="chevron-back" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={Styles.header_text}>{category?.title}</Text>

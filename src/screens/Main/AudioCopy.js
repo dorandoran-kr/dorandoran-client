@@ -8,10 +8,12 @@ import {
   Modal,
   FlatList,
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
 import axios from "axios";
+import { CommonActions } from "@react-navigation/native";
 
-const AudioScreen = ({ route }) => {
+const AudioScreen = ({ navigation, route }) => {
   const [sound, setSound] = useState();
   const [pause, setPause] = useState(false);
   const [open, setOpen] = useState(false);
@@ -68,6 +70,13 @@ const AudioScreen = ({ route }) => {
 
   return (
     <View style={Styles.center}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.dispatch(CommonActions.navigate("Home"));
+        }}
+      >
+        <Icon name="chevron-back" size={24} color="#000000" />
+      </TouchableOpacity>
       {post && (
         <View>
           <Text>제목! {post.title}</Text>

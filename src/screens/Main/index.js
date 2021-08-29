@@ -71,15 +71,6 @@ const Main = () => {
       <Tab.Screen
         name="Category"
         component={Category}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="camera"
-              size={24}
-              color={focused ? COLORS.green : COLORS.lightGray}
-            />
-          ),
-        }}
       />
     </Tab.Navigator>
   );

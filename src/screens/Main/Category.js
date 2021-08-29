@@ -28,6 +28,34 @@ const Category = ({ navigation, route }) => {
     })();
   }, [id]);
 
+  function reset () {
+    navigation.navigate('Home')
+  }
+  
+const Styles = StyleSheet.create({
+    container: {
+        height: 60,
+        flexDirection: 'row',
+        justifyContent : "space-around",
+        padding: 15,
+        backgroundColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: {
+            width:0,
+            height:10,
+        },
+        shadowOpacity: 0.12,
+        shadowRadius: 5.46,
+        elevation:5,
+        alignItems: 'center',
+    justifyContent: 'center',
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+      },
+})
   const placeholder = {
     label: "기본순",
     value: null,

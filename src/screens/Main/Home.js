@@ -29,6 +29,17 @@ const Home = ({ navigation }) => {
   );
 
   return (
+    <SafeAreaView>
+      <Text>오늘도 재미있는 이야기를 해주세요.</Text>
+      <Button onPress={reset} title="RESET"/>
+      <Text>category</Text>
+      {/* TODO: side scroll category */}
+      <FlatList>
+        <Button onPress={reset} title="RESET"/>
+        <Button onPress={reset} title="RESET"/>
+        <Button onPress={reset} title="RESET"/>
+      </FlatList>
+    </SafeAreaView>
     <View style={Styles.containerfull}>
       <View style={Styles.main_bluebox}>
         <Text style={Styles.main_blueboxtext}>오늘도 재미있는</Text>

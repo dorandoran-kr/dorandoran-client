@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
+import AudioCopy from "./AudioCopy";
 import Audio from "./Audio";
 import Record from './Record';
 import Category from "./Category";
@@ -30,8 +31,8 @@ const Main = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="AudioCopy"
+        component={AudioCopy}
         options={{
           // tabBarVisible:false,
           tabBarIcon: ({ focused }) => (
@@ -43,9 +44,10 @@ const Main = () => {
           ),
         }}
       />
+      
       <Tab.Screen
-        name="Audio"
-        component={Audio}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ focused }) => (
             <Feather

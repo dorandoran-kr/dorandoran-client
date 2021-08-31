@@ -7,7 +7,8 @@ import { COLORS } from "../../components/theme";
 
 import Home from "./Home";
 import AudioCopy from "./AudioCopy";
-import Record from "./Record";
+// import Record from "./Record";
+import RecordRoutes from "./RecordRoutes";
 import Category from "./Category";
 
 const Tab = createBottomTabNavigator();
@@ -61,7 +62,7 @@ const Main = () => {
 
       <Tab.Screen
         name="Record"
-        component={Record}
+        component={RecordRoutes}
         options={{
           tabBarVisible: false,
           tabBarIcon: ({ focused }) => (

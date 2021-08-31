@@ -6,6 +6,7 @@ const Stack = createStackNavigator();
 import Login from './Login';
 import Password from './Password';
 import Signup from './Signup';
+import Home from '../Main/Home';
 
 const Join = () => {
   return (
@@ -16,6 +17,7 @@ const Join = () => {
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Password" component={Password} />
       <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   )
 }

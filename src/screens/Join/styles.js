@@ -41,6 +41,10 @@ const Styles = StyleSheet.create({
     color: COLORS.black,
     fontSize: 14,
   },
+  input_blank:{
+    height:14,
+    // backgroundColor:COLORS.gray
+  },
   inputbox_container: {
     height: 40,
     width: "100%",
@@ -52,6 +56,12 @@ const Styles = StyleSheet.create({
   input_box: {
     //fontFamily:FONTS.NanumSquareB,
     width: 200,
+    color: COLORS.black,
+    fontSize: 18,
+  },
+  input_box_pw: {
+    //fontFamily:FONTS.NanumSquareB,
+    width: 300,
     color: COLORS.black,
     fontSize: 18,
   },

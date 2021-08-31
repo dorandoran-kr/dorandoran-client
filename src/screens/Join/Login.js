@@ -4,7 +4,7 @@ import { COLORS, FONTS, SIZES } from "../../components/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import Styles from "./styles.js";
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [ID, onChangeID] = React.useState('');
   const [isValid, setValid] = React.useState(true);
 
@@ -53,7 +53,10 @@ const Login = () => {
             </View>
           </View>
           {!isValid && <Text style={{ color: COLORS.red }}>숫자만 입력해주세요!</Text>}
-          <TouchableOpacity style={Styles.input_button}>
+          <TouchableOpacity 
+            style={Styles.input_button}
+            onPress={() => navigation.navigate('Password')}
+          >
             <Text style={Styles.input_buttontext}>계속하기</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>

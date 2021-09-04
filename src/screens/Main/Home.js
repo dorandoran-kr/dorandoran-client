@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
         <TouchableOpacity 
           style={{justifyContent:'center',alignItems:'center',marginTop:35}}
           onPress={() => {
-            navigation.dispatch(CommonActions.navigate('Record'))
+            navigation.dispatch(CommonActions.reset({routes: [{name: 'Record'}]}))
           }}
         >
           <View style={Styles.main_blueboxbutton}>

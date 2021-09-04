@@ -31,8 +31,10 @@ const Password = ({navigation}) => {
     <View style={Styles.containerfull}>
       <View style={Styles.header}>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000000" />
+          <Icon name="arrow-back" size={24} color="#000000" />          
         </TouchableOpacity>
+        <Text style={Styles.header_text}>로그인</Text>        
+          <View style={{width:24, height:24}}></View>
       </View>
       <View style={Styles.body_container}>
         <View style={Styles.info_textcontainer}>

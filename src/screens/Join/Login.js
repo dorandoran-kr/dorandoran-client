@@ -30,7 +30,7 @@ const Login = ({navigation}) => {
       <View style={Styles.header}>
         <TouchableOpacity>
           <Icon name="close" size={24} color="#000000" />
-        </TouchableOpacity>
+        </TouchableOpacity>        
       </View>
       <View style={Styles.body_container}>
         <View style={Styles.info_textcontainer}>
@@ -55,7 +55,8 @@ const Login = ({navigation}) => {
           {!isValid && <Text style={{ color: COLORS.red }}>숫자만 입력해주세요!</Text>}
           <TouchableOpacity 
             style={Styles.input_button}
-            onPress={() => navigation.navigate('Password')}
+            //onPress={() => navigation.navigate('Password')}
+            onPress={() => navigation.navigate('Signup')}
           >
             <Text style={Styles.input_buttontext}>계속하기</Text>
           </TouchableOpacity>

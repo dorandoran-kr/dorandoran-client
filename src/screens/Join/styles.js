@@ -12,9 +12,15 @@ const Styles = StyleSheet.create({
     paddingTop: 38,
     paddingHorizontal: 24,
     backgroundColor: COLORS.white,
+    display:'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  header_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.black,
+    fontSize:20,
   },
   body_container: {
     flex: 1,

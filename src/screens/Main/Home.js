@@ -1,12 +1,14 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Styles from './styles';
 import { CommonActions } from '@react-navigation/native';
 
 const Home = ({ navigation }) => {
+  const [token, setToken] = useState();
+  const [user, setUser] = useState();
   const [categories, setCategories] = useState();
 
   useEffect(() => {
@@ -15,7 +17,25 @@ const Home = ({ navigation }) => {
 
       setCategories(resp.data);
     })();
+    (async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      (async () => {
+        const user = await axios.get('http://3.35.66.47/users/me', {
+          headers: {
+            Authorization: token
+          }
+        })
+        setUser(user.data);
+      })();
+    }
+  }, [token]);
 
   const renderItem = ({ item }) => (   
     <TouchableOpacity

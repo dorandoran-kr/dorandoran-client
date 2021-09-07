@@ -34,7 +34,6 @@ const Category = ({ navigation, route }) => {
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);
-      console.log(resp.data);
     })();
   }, [id]);
 

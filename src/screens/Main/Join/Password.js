@@ -26,7 +26,6 @@ const Password = ({ navigation, route }) => {
   }, [phoneNumber]);
 
   const Login = async () => {
-    console.log(PW, phoneNumber);
     try {
       const resp = await axios.post(`http://3.35.66.47/users/login`, {
         phoneNumber,
@@ -35,7 +34,6 @@ const Password = ({ navigation, route }) => {
       });
 
       if (resp?.data?.user) {
-        console.log(resp.data.user);
         await AsyncStorage.setItem("token", resp?.data?.token);
 
         navigation.navigate("Home");

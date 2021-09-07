@@ -13,15 +13,11 @@ const Question = ({ navigation, route }) => {
   const { id, title } = route.params;
 
   useEffect(() => {
-    async function getToken() {
+    (async () => {
       const token = await AsyncStorage.getItem('token');
       setToken(token);
-    }
-    getToken();
-
+    })();
   }, [])
-
-  console.log(id);
 
   const createQuestion = async () => {
     try {
@@ -37,7 +33,6 @@ const Question = ({ navigation, route }) => {
         }
       );
 
-      console.log(resp.data);
       navigation.navigate("End");
     } catch (error) {
       setError(true);

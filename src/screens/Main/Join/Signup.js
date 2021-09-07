@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Styles from "./styles.js";
 import { COLORS, FONTS, SIZES } from "../../../components/theme";
@@ -19,7 +20,6 @@ const Signup = ({ navigation, route }) => {
   const { phoneNumber, password } = route.params;
 
   const signUp = async () => {
-    console.log(phoneNumber, password, nickname, birth);
     try {
       const resp = await axios.post(`http://3.35.66.47/users`, {
         phoneNumber,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -6,14 +6,41 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
-import { COLORS } from "../../../components/theme";
 import Icon from "react-native-vector-icons/Ionicons";
-import Styles from "./styles.js";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import Styles from "./styles.js";
+import { COLORS } from "../../../components/theme";
 
 const Login = ({ navigation }) => {
-  const [ID, onChangeID] = React.useState("");
-  const [isValid, setValid] = React.useState(true);
+  const [token, setToken] = useState();
+  const [ID, onChangeID] = useState("");
+  const [isValid, setValid] = useState(true);
+  
+  useEffect(() => {
+    async function getToken() {
+      const token = await AsyncStorage.getItem('token');
+      setToken(token);
+    }
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      axios.get('http://3.35.66.47/users/me', {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(_ => {
+          navigation.navigate('Home');
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  }, [token]);
 
   const onChanged = (text) => {
     let newText = "";

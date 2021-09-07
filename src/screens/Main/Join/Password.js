@@ -1,32 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import { COLORS, FONTS, SIZES } from "../../components/theme";
+import { COLORS, FONTS, SIZES } from "../../../components/theme";
 import Icon from "react-native-vector-icons/Ionicons";
 import Styles from "./styles.js";
+import axios from 'axios';
 
-const Password = ({navigation}) => {
-  const [PW, onChangePW] = React.useState('');
-  //const [isValid, setValid] = React.useState(true);
+const Password = ({navigation, route}) => {
+  const [PW, onChangePW] = useState('');
+  const [isLoginFailed, setIsLoginFailed] = useState(false);
 
+  const { phoneNumber } = route.params;
 
-  // const onChanged = (text) => {
-  //   let newText = '';
-  //   let numbers = '0123456789';
+  useEffect(() => {
+    if (!phoneNumber) {
+      navigation.navigate('Login')
+    }
+  }, [phoneNumber]);
 
-  //   for (var i = 0; i < text.length; i++) {
-  //     if (numbers.indexOf(text[i]) > -1) {
-  //       newText = newText + text[i];
-  //       setValid(true);
-  //     }
-  //     else {
-  //       // your call back function
-  //       setValid(false);
-  //     }
-  //   }
-  //   newText = newText + text[i];
-  //       setValid(true);
-  //   onChangePW(newText);
-  // }
+  const Login = async () => {
+    console.log(PW, phoneNumber);
+    try {
+      const resp = await axios.post(`http://3.35.66.47/users/login`, {
+        phoneNumber,
+        password: PW,
+        screen: 'Home'
+      });
+      
+      if (resp?.data?.user) {
+        console.log(resp.data.user);
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      setIsLoginFailed(true);
+      console.log(error); 
+    }
+  }
+
   return (
     <View style={Styles.containerfull}>
       <View style={Styles.header}>
@@ -49,6 +58,7 @@ const Password = ({navigation}) => {
               <TextInput
                 style={Styles.input_box_pw}
                 onChangeText={onChangePW}
+                secureTextEntry={true} 
                 value={PW}
                 placeholder="비밀번호를 입력해주세요"
                 keyboardType="visible-password"
@@ -56,10 +66,10 @@ const Password = ({navigation}) => {
               />
             </View>
           </View>
-          {/* {!isValid && <Text style={{ color: COLORS.red }}>숫자만 입력해주세요!</Text>} */}
+          {isLoginFailed && <Text style={{ color: COLORS.red }}>비밀번호가 틀렸습니다!</Text>}
           <TouchableOpacity 
             style={Styles.input_button}
-            onPress={() => navigation.navigate('Home')}
+            onPress={Login}
           >
             <Text style={Styles.input_buttontext}>로그인하기</Text>
           </TouchableOpacity>

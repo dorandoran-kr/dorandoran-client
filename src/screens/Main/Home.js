@@ -22,7 +22,6 @@ const Home = ({ navigation }) => {
       onPress={() => {navigation.dispatch(CommonActions.navigate('Category', {id: item.id}))}}
     >
       <View style={Styles.main_categorycard}>
-        <Image source={{uri:item.thumbnailUrl}} style={{width:120,height:120, borderRadius:10}}/>
         <Text style={Styles.main_categorytext}>{item.title}</Text>
       </View>
     </TouchableOpacity>
@@ -51,6 +50,11 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>          
       </View>
       <View style={Styles.main_categorycontainer}>
+        <TouchableOpacity
+          onPress={() => {navigation.dispatch(CommonActions.reset({routes: [{name: 'QuestionRoutes'}]}))}}
+        >
+          <Text style={Styles.main_categorytitle}>질문 남기러 가기</Text>
+        </TouchableOpacity>
         <Text style={Styles.main_categorytitle}>카테고리</Text>
         <FlatList
           data={categories}

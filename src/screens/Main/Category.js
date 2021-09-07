@@ -16,7 +16,7 @@ import Styles from "./styles.js";
 import { CommonActions } from "@react-navigation/native";
 
 const Category = ({ navigation, route }) => {
-  const [posts, setPosts] = useState();
+  const [questions, setQuestions] = useState();
   const [category, setCategory] = useState();
 
   const { id } = route.params;
@@ -32,8 +32,9 @@ const Category = ({ navigation, route }) => {
     (async () => {
       const resp = await axios.get(`http://3.35.66.47/categories/${id}`);
 
-      setPosts(resp.data.posts);
+      setQuestions(resp.data.questions);
       setCategory(resp.data.category);
+      console.log(resp.data);
     })();
   }, [id]);
 
@@ -67,7 +68,7 @@ const Category = ({ navigation, route }) => {
 
       <FlatList
         style={Styles.category_listcontainer}
-        data={posts}
+        data={questions}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
@@ -77,8 +78,7 @@ const Category = ({ navigation, route }) => {
             <View style={Styles.category_list}>
               <View style={Styles.category_profile} />
               <View style={Styles.category_textcontainer}>
-                <Text style={Styles.category_text1}>{item.title}</Text>
-                <Text style={Styles.category_text2}>{item.description}</Text>
+                <Text style={Styles.category_text1}>{item.text}</Text>
               </View>
             </View>
           </TouchableOpacity>

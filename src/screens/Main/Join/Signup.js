@@ -1,11 +1,42 @@
-import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import { COLORS, FONTS, SIZES } from "../../components/theme";
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import Styles from "./styles.js";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Signup = ({ navigation }) => {
-  const [PW, onChangePW] = React.useState('');
+import Styles from "./styles.js";
+import { COLORS, FONTS, SIZES } from "../../../components/theme";
+
+const Signup = ({ navigation, route }) => {
+  const [nickname, onChangeNickname] = useState("");
+  const [birth, onChangeBirth] = useState("");
+  const [isSignupFailed, setIsSignupFailed] = useState(false);
+
+  const { phoneNumber, password } = route.params;
+
+  const signUp = async () => {
+    try {
+      const resp = await axios.post(`http://3.35.66.47/users`, {
+        phoneNumber,
+        password,
+        nickname,
+        birth,
+      });
+
+      if (resp.data) {
+        await AsyncStorage.setItem("token", res.data.token);
+        navigation.navigate("Main");
+      }
+    } catch (error) {
+      console.log(error);
+      setIsSignupFailed(true);
+    }
+  };
 
   return (
     <View style={Styles.containerfull}>
@@ -24,14 +55,14 @@ const Signup = ({ navigation }) => {
         <View style={Styles.inputbox_container}>
           <TextInput
             style={Styles.input_box_pw}
-            onChangeText={onChangePW}
-            value={PW}
+            onChangeText={onChangeNickname}
+            value={nickname}
             placeholder="닉네임을 입력해주세요"
             keyboardType="visible-password"
             maxLength={21}
           />
         </View>
-        <View style={{height:70}}></View>
+        <View style={{ height: 70 }}></View>
         <View style={Styles.info_textcontainer}>
           <Text style={Styles.info_text}>생년월일</Text>
           <Text style={Styles.info_text}> </Text>
@@ -39,27 +70,25 @@ const Signup = ({ navigation }) => {
         <View style={Styles.inputbox_container}>
           <TextInput
             style={Styles.input_box_pw}
-            onChangeText={onChangePW}
-            value={PW}
-            placeholder="닉네임을 입력해주세요"
+            onChangeText={onChangeBirth}
+            value={birth}
+            placeholder="생년월일을 입력해주세요"
             keyboardType="visible-password"
             maxLength={21}
           />
         </View>
+        {isSignupFailed && (
+          <Text style={{ color: COLORS.red }}>가입에 실패하였습니다!</Text>
+        )}
         <View style={Styles.input_container}>
           <View></View>
-          <TouchableOpacity
-            style={Styles.input_button}
-            onPress={() => navigation.navigate('Home')}
-          >
+          <TouchableOpacity style={Styles.input_button} onPress={signUp}>
             <Text style={Styles.input_buttontext}>로그인하기</Text>
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
-
-  )
-}
+  );
+};
 
 export default Signup;

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
 
+import Styles from '../styles';
+
 const Select = ({ navigation, route }) => {
   const [categories, setCategories] = useState();
 
@@ -23,13 +25,14 @@ const Select = ({ navigation, route }) => {
         }))
       }}
     >
-      <Text>{item.title}</Text>
+      <View style={Styles.main_categorycard}>
+        <Text style={Styles.main_categorytext}>{item.title}</Text>
+      </View>
     </TouchableOpacity>
   )
 
   return (
     <View style={styles.container}>
-      <Text>hi</Text>
       <FlatList 
         data={categories}
         renderItem={renderItem}
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: "30%",
   },
 });
 

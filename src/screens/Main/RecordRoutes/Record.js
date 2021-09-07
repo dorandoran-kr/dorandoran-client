@@ -3,27 +3,27 @@ import {
   View,
   Button,
   Text,
-  SafeAreaView,
   StyleSheet,
-  Animated,
-  Pressable,
   TouchableOpacity,
   Image
 } from "react-native";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
-import Styles from "../styles";
-// import LinearGradient from "react-native-linear-gradient";
-// import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import axios from "axios";
 
-const Record = ({ navigation }) => {
+import Styles from "../styles";
+
+const Record = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [recording, setRecording] = useState();
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
   const [directory, setDirectory] = useState();
   const [isRecording, setIsRecording] = useState(false);
+  const [isError, setError] = useState(false);
+
+  const { questionId } = route.params;
 
   useEffect(() => {
     (async () => {
@@ -32,6 +32,11 @@ const Record = ({ navigation }) => {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
+    })();
+    (async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
     })();
   }, []);
 
@@ -90,6 +95,32 @@ const Record = ({ navigation }) => {
     }
   }
 
+  const createPost = async () => {
+    try {
+      const resp = await axios.post(
+        'http://3.35.66.47/posts',
+        {
+          title: "",
+          description: "",
+          thumbnailUrl: "",
+          questionId,
+          url: directory
+        },
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
+
+      console.log(resp);
+      navigation.dispatch(CommonActions.navigate('End'))
+    } catch (error) {
+      setError(true);
+      console.error(error);
+    }
+  }
+
   return (
 
     <View style={styles.container}>
@@ -141,7 +172,7 @@ const Record = ({ navigation }) => {
           />
           <Button
             title="녹음 완료!"
-            onPress={() => navigation.dispatch(CommonActions.navigate('End'))}
+            onPress={createPost}
           />
         </View>
       }

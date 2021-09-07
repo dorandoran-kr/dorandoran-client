@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from "react-native-vector-icons/Ionicons";
 
 import Styles from './styles';
 import { CommonActions } from '@react-navigation/native';
+import { COLORS, SIZES } from '../../components/theme';
 
 const Home = ({ navigation }) => {
   const [token, setToken] = useState();
@@ -37,9 +39,9 @@ const Home = ({ navigation }) => {
     }
   }, [token]);
 
-  const renderItem = ({ item }) => (   
+  const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => {navigation.dispatch(CommonActions.navigate('Category', {id: item.id}))}}
+      onPress={() => { navigation.dispatch(CommonActions.navigate('Category', { id: item.id })) }}
     >
       <View style={Styles.main_categorycard}>
         <Text style={Styles.main_categorytext}>{item.title}</Text>
@@ -49,9 +51,51 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={Styles.containerfull}>
-      <View style={Styles.main_bluebox}>
-        <Text style={Styles.main_blueboxtext}>오늘도 재미있는</Text>
-        <Text style={Styles.main_blueboxtext}>이야기를 해주세요</Text>
+      <View style={{ width: 250, display: 'flex', flexDirection: 'row', position: 'absolute', marginTop: SIZES.height * 0.38 - 20, justifyContent: 'space-around', left: SIZES.width * 0.5 - 125 }}>
+        <View style={{ backgroundColor: COLORS.white, width: 40, height: 40, borderRadius: 20, elevation: 2, }}></View>
+        <View style={{ backgroundColor: COLORS.white, width: 40, height: 40, borderRadius: 20, elevation: 2, }}></View>
+      </View>
+      <View style={{ flex: 3, justifyContent: 'space-between' }}>
+        <Text style={Styles.main_header_text}>안녕하세요 {user && user.nickname}님</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Image
+            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631036817420KakaoTalk_20210908_023432084.png' }}
+            style={{ width: 220, height: 180, }}
+          />
+        </View>
+      </View>
+      <View style={Styles.main_whitecontainer}>
+        <View style={Styles.main_whitecontainer_box}>
+          <Text style={Styles.main_whitecontainer_text}>오늘의 질문</Text>
+          <Text style={Styles.main_whitecontainer_text2}>Q. 질문 어쩌구 받아올까 그러면 ㄴ될거 같은데</Text>
+        </View>
+        <Text style={Styles.main_category_text}>다른 이야기도 들어보세요</Text>
+        <FlatList
+          data={categories}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ListHeaderComponent={<View style={{ width: 40 }} />}
+          ListFooterComponent={<View style={{ width: 24 }} />}
+        />
+        <View style={{marginTop:140}}>
+          <View style={Styles.tabbar}>
+            <Icon name="home" size={32} color={COLORS.green} />
+            <Icon name="person" size={32} color={COLORS.lightGray} />
+          </View>
+          <TouchableOpacity
+            style={Styles.tabbar_button}
+            onPress={() => {
+              navigation.dispatch(CommonActions.reset({ routes: [{ name: 'Record' }] }))
+            }}
+          ><Icon name="add" size={48} color={COLORS.white} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* <Text style={Styles.main_header_text}>이야기를 해주세요</Text> */}
+      {/* <View style={Styles.main_bluebox}>
+        
         <TouchableOpacity 
           style={{justifyContent:'center',alignItems:'center',marginTop:35}}
           onPress={() => {
@@ -68,8 +112,8 @@ const Home = ({ navigation }) => {
             ></Image>
           </View>
         </TouchableOpacity>          
-      </View>
-      <View style={Styles.main_categorycontainer}>
+      </View> */}
+      {/* <View style={Styles.main_categorycontainer}>
         <TouchableOpacity
           onPress={() => {navigation.dispatch(CommonActions.reset({routes: [{name: 'QuestionRoutes'}]}))}}
         >
@@ -84,7 +128,7 @@ const Home = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           ListFooterComponent={<View style={{width:24}}/>}
         />
-      </View>
+      </View> */}
     </View>
   )
 }

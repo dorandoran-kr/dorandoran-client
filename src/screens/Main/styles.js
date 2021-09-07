@@ -3,8 +3,109 @@ import { COLORS, FONTS, SIZES } from "../../components/theme";
 
 const Styles = StyleSheet.create({
   containerfull:{
-    backgroundColor:COLORS.white,
+    backgroundColor:COLORS.green,
+    width:'100%',
+    height:'100%',    
   },
+  main_header_text:{
+    fontSize:24,
+    fontFamily:FONTS.NanumSquareEB,
+    color:"#ffffff",
+    marginTop:50,
+    marginBottom:15,
+    marginLeft:44,
+  },
+  main_whitecontainer:{
+    flex:5,
+    //height:'60%',
+    width:'100%',
+    backgroundColor:COLORS.backgray,
+    borderTopLeftRadius:40,
+    borderTopRightRadius:40,  
+  },
+  main_whitecontainer_box:{    
+    height:154,
+    backgroundColor:COLORS.white,
+    elevation:2,
+    marginTop:40,
+    marginHorizontal:40,
+    borderRadius:20,
+    padding:36,
+  },
+  main_whitecontainer_text:{
+    fontSize:16,
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.gray,
+  },
+  main_whitecontainer_text2:{
+    fontSize:16,
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.green,
+    marginTop:12,
+  },
+  tabbar:{
+    width:296,
+    height:64,
+    backgroundColor:COLORS.white,
+    elevation:1,
+    borderRadius:32,
+    alignSelf:'center',
+    position:'absolute',
+    bottom:32,
+    justifyContent:'space-around',
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  tabbar_button:{
+    width:70,
+    height:70,
+    borderRadius:35,
+    backgroundColor:COLORS.green,
+    alignSelf:'center',
+    position:'absolute',
+    elevation:2,
+    bottom:48,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  main_category_text:{
+    fontSize:20,
+    fontFamily:FONTS.NanumSquareEB,
+    color:COLORS.green,
+    marginTop:28,
+    marginLeft:40,
+  },
+  main_categorytext:{
+    fontFamily:FONTS.NanumSquareEB,
+    color:COLORS.white,
+    fontSize:16,
+  },
+  main_categorycard:{
+    backgroundColor: COLORS.green2, 
+    marginTop:10,
+    flex:1,
+    width:140,
+    borderRadius:20,
+    marginRight:8,
+    alignItems:'center',
+    justifyContent:'center',
+    // elevation:2,
+    // marginVertical: 8,
+    // marginLeft: 24,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 3,
+    // elevation: 2,
+    // borderWidth:0.3,
+    // borderColor:COLORS.lightGray
+  },
+
+
   header:{
     width:SIZES.width,
     height:104,
@@ -35,13 +136,7 @@ const Styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     paddingTop:100,     
   },
-  main_blueboxtext:{
-    fontSize:24,
-    fontFamily:FONTS.NanumSquareEB,
-    color:"#ffffff",
-    marginBottom:15,
-    marginLeft:44,
-  },
+  
   main_blueboxbutton:{
     height:144,
     width:144,
@@ -71,31 +166,7 @@ const Styles = StyleSheet.create({
     marginLeft:24,
     marginBottom:10,
   },
-  main_categorytext:{
-    fontFamily:FONTS.NanumSquareEB,
-    color:COLORS.gray,
-    fontSize:24,
-  },
-  main_categorycard:{
-    backgroundColor: COLORS.white, 
-    height:224,
-    width:160,
-    padding: 20,
-    justifyContent:'space-between',
-    borderRadius:10,
-    marginVertical: 8,
-    marginLeft: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 2,
-    borderWidth:0.3,
-    borderColor:COLORS.lightGray
-  },
+  
   
   category_listcontainer:{
     backgroundColor:COLORS.white, 

@@ -1,40 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, SafeAreaView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Modal,
+  FlatList,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
+import { CommonActions } from "@react-navigation/native";
 
-const AudioScreen = () => {
+import axios from '../../axios';
+
+const AudioScreen = ({ navigation, route }) => {
   const [sound, setSound] = useState();
   const [pause, setPause] = useState(false);
-  const [recording, setRecording] = useState();
-  const [recordedUri, setRecordedUri] = useState();
+  const [open, setOpen] = useState(false);
+  const [post, setPost] = useState();
+  const [likeCount, setLikeCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
 
-  async function startRecording() {
-    try {
-      console.log("Requesting permissions..");
-      await Audio.requestPermissionsAsync();
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
-      console.log("Starting recording..");
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
-      );
-      setRecording(recording);
-      console.log("Recording started");
-    } catch (err) {
-      console.error("Failed to start recording", err);
-    }
-  }
+  const { id } = route.params;
 
-  async function stopRecording() {
-    console.log("Stopping recording..");
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-    const uri = recording.getURI();
-    console.log("Recording stopped and stored at", uri);
-    setRecordedUri(uri);
-  }
+  useEffect(() => {
+    (async () => {
+      const resp = await axios.get(`/posts/${id}`);
+
+      setPost(resp.data.post);
+      setLikeCount(resp.data.likeCount);
+      setCommentCount(resp.data.commentCount);
+    })();
+  }, []);
 
   async function playSound() {
     console.log("Loading Sound");
@@ -72,31 +70,50 @@ const AudioScreen = () => {
   }, [sound]);
 
   return (
-    <SafeAreaView>
+    <View style={Styles.center}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.dispatch(CommonActions.navigate("Home"));
+        }}
+      >
+        <Icon name="chevron-back" size={24} color="#000000" />
+      </TouchableOpacity>
       <View>
-        <Button
-          style={{ marginTop: "20" }}
-          title={recording ? "Stop Recording" : "Start Recording"}
-          onPress={recording ? stopRecording : startRecording}
-        />
-        <Text>Hi</Text>
+        <Text>{post?.Question?.text}</Text>
+        <Text>{post?.User?.nickname}</Text>
       </View>
 
-      <View>
-        <Text>Audio</Text>
+      <Button
+        title={sound ? "Pause sound" : "Start sound"}
+        onPress={sound ? stopSound : playSound}
+      />
+
+      {sound && (
         <Button
-          title={sound ? "Stop sound" : "Start sound"}
-          onPress={sound ? stopSound : playSound}
+          title={pause ? "Play" : "Pause"}
+          onPress={pause ? restartSound : pauseSound}
         />
-        {sound && (
-          <Button
-            title={pause ? "Play" : "Pause"}
-            onPress={pause ? restartSound : pauseSound}
-          />
-        )}
-      </View>
-    </SafeAreaView>
+      )}
+    </View>
   );
 };
+
+const Styles = StyleSheet.create({
+  container: {
+    height: 3,
+    width: "100%",
+    backgroundColor: "white",
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+});
 
 export default AudioScreen;

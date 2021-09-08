@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
-import axios from "axios";
 import { CommonActions } from "@react-navigation/native";
+
+import axios from '../../axios';
 
 const AudioScreen = ({ navigation, route }) => {
   const [sound, setSound] = useState();
@@ -25,7 +26,7 @@ const AudioScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`http://3.35.66.47/posts/${id}`);
+      const resp = await axios.get(`/posts/${id}`);
 
       setPost(resp.data.post);
       setLikeCount(resp.data.likeCount);

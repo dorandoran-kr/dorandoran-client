@@ -12,7 +12,7 @@ const RecordRoutes = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={"Home"}
+      initialRouteName={"Start"}
     >
       <Stack.Screen name="Start" component={Start} />
       <Stack.Screen name="Explain" component={Explain} />

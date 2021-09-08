@@ -6,9 +6,9 @@ import {
   TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import axios from "../../../axios.js";
 import Styles from "./styles.js";
 import { COLORS, FONTS, SIZES } from "../../../components/theme";
 
@@ -21,7 +21,7 @@ const Signup = ({ navigation, route }) => {
 
   const signUp = async () => {
     try {
-      const resp = await axios.post(`http://3.35.66.47/users`, {
+      const resp = await axios.post(`/users`, {
         phoneNumber,
         password,
         nickname,

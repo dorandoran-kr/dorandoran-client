@@ -3,27 +3,27 @@ import {
   View,
   Button,
   Text,
-  SafeAreaView,
   StyleSheet,
-  Animated,
-  Pressable,
   TouchableOpacity,
   Image
 } from "react-native";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
-import Styles from "../styles";
-// import LinearGradient from "react-native-linear-gradient";
-// import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import axios from "axios";
 
-const Record = ({ navigation }) => {
+import axios from "../../../axios";
+import Styles from "../styles";
+
+const Record = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [recording, setRecording] = useState();
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
   const [directory, setDirectory] = useState();
   const [isRecording, setIsRecording] = useState(false);
+  const [isError, setError] = useState(false);
+
+  const { questionId } = route.params;
 
   useEffect(() => {
     (async () => {
@@ -32,6 +32,11 @@ const Record = ({ navigation }) => {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
+    })();
+    (async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
     })();
   }, []);
 
@@ -82,12 +87,19 @@ const Record = ({ navigation }) => {
     });
 
     try {
-      const res = await axios.post('http://3.35.66.47/uploads', formData);
+      const res = await axios.post('/uploads', formData);
       setDirectory(res.data.directory);
       setUri(null);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  const finishRecord = async () => {
+    navigation.dispatch(CommonActions.navigate("End", { 
+      questionId,
+      url: directory
+    }));
   }
 
   return (
@@ -141,7 +153,7 @@ const Record = ({ navigation }) => {
           />
           <Button
             title="녹음 완료!"
-            onPress={() => navigation.dispatch(CommonActions.navigate('End'))}
+            onPress={finishRecord}
           />
         </View>
       }

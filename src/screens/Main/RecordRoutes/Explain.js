@@ -7,11 +7,13 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import axios from "axios";
 import { CommonActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import styles from './styles';
 import MasonryList from '@react-native-seoul/masonry-list';
+
+import axios from "../../../axios";
+import Styles from "../styles";
 
 const Explain = ({ navigation, route }) => {
   const [questions, setQuestions] = useState();
@@ -21,7 +23,7 @@ const Explain = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`http://3.35.66.47/categories/${id}`);
+      const resp = await axios.get(`/categories/${id}`);
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);
@@ -29,7 +31,12 @@ const Explain = ({ navigation, route }) => {
   }, [id]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.questionbox}>
+    <TouchableOpacity
+      style={styles.questionbox}
+      onPress={() => navigation.dispatch(CommonActions.navigate("Record", {
+        questionId: item.id
+      }))}
+    >
       <Text style={styles.questionbox_text}>{item.text}</Text>
     </TouchableOpacity>
   );
@@ -61,28 +68,15 @@ const Explain = ({ navigation, route }) => {
         />}
 
       </View>
-      {/* {category && (
-        <Text style={{ marginBottom: "20%" }}>
-          상단 카테고리 명: {category.title}
-        </Text>
-      )}
 
-      {questions &&
-        <FlatList
-          data={questions}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          showsHorizontalScrollIndicator={false}
-        />
-      }
+      <Text>어떤 질문에 답을 해주시겠어요?</Text>
 
-      <Text>녹음 전 유의사항!</Text>
-      <Text>이 부분을 녹음해주세요!</Text>
-
-      <Button
-        onPress={() => navigation.dispatch(CommonActions.navigate("Record"))}
-        title="녹음 시작!"
-      /> */}
+      <FlatList
+        data={questions}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+      />
     </View>
   );
 };

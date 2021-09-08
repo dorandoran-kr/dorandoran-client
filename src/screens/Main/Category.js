@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import RNPickerSelect from "react-native-picker-select";
-import axios from "axios";
 
+import axios from "../../axios";
 import { COLORS, FONTS, SIZES } from "../../components/theme";
 import Styles from "./styles.js";
 import { CommonActions } from "@react-navigation/native";
@@ -29,7 +29,7 @@ const Category = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`http://3.35.66.47/categories/${id}`);
+      const resp = await axios.get(`/categories/${id}`);
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);

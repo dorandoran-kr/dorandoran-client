@@ -12,7 +12,8 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
 
 import axios from "../../../axios";
-import Styles from "../styles";
+import styles from "./styles";
+import { COLORS, SIZES } from '../../../components/theme';
 
 const Record = ({ navigation, route }) => {
   const [token, setToken] = useState();
@@ -96,86 +97,82 @@ const Record = ({ navigation, route }) => {
   }
 
   const finishRecord = async () => {
-    navigation.dispatch(CommonActions.navigate("End", { 
+    navigation.dispatch(CommonActions.navigate("End", {
       questionId,
       url: directory
     }));
   }
 
   return (
-
-    <View style={styles.container}>
-            <View style={Styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.dispatch(CommonActions.navigate('Home'))
-          }}
-        >
-          <Icon name="chevron-back" size={24} color="#000000" />
-        </TouchableOpacity>
-        <View style={{ width: 24 }}></View>
-      </View>
-
-      {
-        isRecording
-          ? <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif' }}
-            style={{
-              width: 300,
-              height: 300,
+    <View style={styles.containerfull}>
+      {/* <View style={styles.backscreen}></View> */}
+      <View style={styles.whitecontainer}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(CommonActions.navigate("Explain"));
             }}
-          />
-          : <View></View>
-      }
-
-      <Button
-        title={recording ? "Stop Recording" : "Start Recording"}
-        onPress={recording ? stopRecording : startRecording}
-      />
-
-      {
-        uri &&
-        <Button
-          title="녹음 완료? 업로드!"
-          onPress={upload}
-        />
-      }
-
-      {
-        (directory && !recording) &&
-        <View>
-          <Text>업로드 완료!</Text>
-          <Text>{directory}</Text>
-          <Text>Audio</Text>
-          <Button
-            title={sound ? "정지" : "들어보기"}
-            onPress={sound ? stopSound : playSound}
-          />
-          <Button
-            title="녹음 완료!"
-            onPress={finishRecord}
-          />
+          >
+            <Icon name="chevron-back" size={32} color="#000000" />
+          </TouchableOpacity>
         </View>
-      }
+        <View>
+          <View style={{ width: 250, display: 'flex', flexDirection: 'row', position: 'absolute', marginTop: SIZES.height * 0.38 - 20, justifyContent: 'space-around' }}>
+            <View style={{ backgroundColor: COLORS.white, width: 40, height: 40, borderRadius: 20, elevation: 2, }}></View>
+            <View style={{ backgroundColor: COLORS.white, width: 40, height: 40, borderRadius: 20, elevation: 2, }}></View>
+          </View>
+          <View style={styles.rando_image}>
+            <Image
+              source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631097612874KakaoTalk_20210908_193939151.gif' }}
+              style={{ width: 180, height: 180, borderRadius: 90 }}
+            />
+          </View>
+        </View>
+        {
+          isRecording
+            ? <Image
+              source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif' }}
+              style={{
+                width: 300,
+                height: 300,
+              }}
+            />
+            : <View></View>
+        }
+        <Button
+          title={recording ? "Stop Recording" : "Start Recording"}
+          onPress={recording ? stopRecording : startRecording}
+        />
+
+        {
+          uri &&
+          <Button
+            title="녹음 완료? 업로드!"
+            onPress={upload}
+          />
+        }
+
+        {
+          (directory && !recording) &&
+          <View>
+            <Text>업로드 완료!</Text>
+            <Text>{directory}</Text>
+            <Text>Audio</Text>
+            <Button
+              title={sound ? "정지" : "들어보기"}
+              onPress={sound ? stopSound : playSound}
+            />
+            <Button
+              title="녹음 완료!"
+              onPress={finishRecord}
+            />
+          </View>
+        }
+
+      </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textStyle: {
-    fontSize: 40,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  secsStyle: {
-    fontSize: 18,
-    opacity: 0.7,
-  },
-});
 
 export default Record;

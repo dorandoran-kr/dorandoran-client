@@ -68,15 +68,6 @@ const Explain = ({ navigation, route }) => {
         />}
 
       </View>
-
-      <Text>어떤 질문에 답을 해주시겠어요?</Text>
-
-      <FlatList
-        data={questions}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-      />
     </View>
   );
 };

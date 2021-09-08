@@ -103,6 +103,7 @@ const Styles = StyleSheet.create({
   header:{
     flexDirection:'row',
     alignItems:'center',
+    marginBottom:32,
   },
   header_title:{
     fontFamily:FONTS.NanumSquareB,
@@ -132,44 +133,27 @@ const Styles = StyleSheet.create({
     marginBottom:14,
     elevation:1,    
   },
-
-  
-  
-  
-  category_listcontainer:{
-    backgroundColor:COLORS.white, 
-    height:SIZES.height,
-  },
   category_list:{    
-    flexDirection:'row',
     justifyContent:'space-between',
-    alignItems:'center',
-    paddingHorizontal:24,
-    marginTop:20,
-  },
-  category_profile:{
-    width:52,
-    height:52,
-    borderRadius:26,
-    backgroundColor:COLORS.lightGray,
-  },
-  category_textcontainer:{
-    width:SIZES.width-110,
-    borderBottomWidth:0.5,
-    borderBottomColor:COLORS.lightGray,
+    //height:154,
+    backgroundColor:COLORS.white,
+    paddingVertical:36,
+    paddingHorizontal:28,
+    borderRadius:20,
+    elevation:1,
+    marginBottom:24,
   },
   category_text1:{
     fontFamily:FONTS.NanumSquareEB,
     color:COLORS.black,
-    fontSize:18,
-    marginTop:8,
+    fontSize:16,
+    lineHeight:24,
   },
   category_text2:{
     fontFamily:FONTS.NanumSquareB,
     color:COLORS.DarkGray,
-    fontSize:14,
-    marginTop:8,
-    marginBottom:10,
+    marginTop:24,
+    fontSize:12,
   },
 
   container: {

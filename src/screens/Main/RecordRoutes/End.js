@@ -96,7 +96,7 @@ const End = ({ navigation, route }) => {
               onPress={() => {
                 navigation.dispatch(CommonActions.navigate('Home')) }}
             >
-              <Text style={styles.record_button_text}>녹음완료</Text>
+              <Text style={styles.record_button_text}>홈으로 가기</Text>
               <Icon name="chevron-forward" size={24} color={COLORS.green} />
             </TouchableOpacity>
           </View>

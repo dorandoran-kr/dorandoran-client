@@ -149,11 +149,12 @@ const styles = StyleSheet.create({
     justifyContent:'center',    
   },
   record_upload:{
-    width:125,
+    //width:125,
     height:50,
     borderRadius:25,
     borderWidth:2,
     borderColor: COLORS.green,
+    paddingHorizontal:20,
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'center'

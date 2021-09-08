@@ -13,7 +13,7 @@ const Record = ({ navigation, route }) => {
   const [recording, setRecording] = useState();
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
-  const [directory, setDirectory] = useState();
+  const [isPlay, setIsPlay] = useState(false);
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [isStopwatchStart, setIsStopwatchStart] = useState(false);
   const [timerDuration, setTimerDuration] = useState(90000);
@@ -40,11 +40,14 @@ const Record = ({ navigation, route }) => {
       const { recording } = await Audio.Recording.createAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
       );
-      setRecording(recording);
-      setIsRecording(true);
+      setTimeout(() => {
+        setRecording(recording);
+        setIsRecording(true);
+        setUri();
 
-      setIsStopwatchStart(true);
-      setResetStopwatch(false);
+        setIsStopwatchStart(true);
+        setResetStopwatch(false);
+      }, 50);
     } catch (error) {
       console.error("Failed to start recording", error);
     }
@@ -60,17 +63,22 @@ const Record = ({ navigation, route }) => {
   };
 
   const playSound = async () => {
-    const { sound } = await Audio.Sound.createAsync({
-      uri: directory,
-    });
-    setSound(sound);
+    if (!sound) {
+      const { sound } = await Audio.Sound.createAsync({
+        uri: uri,
+      });
+      setSound(sound);
+      sound.setIsLoopingAsync(true);
+      await sound.playAsync();
+    }
+    setIsPlay(true);
 
     await sound.playAsync();
   };
 
   const stopSound = async () => {
-    setSound(undefined);
-    await sound.unloadAsync();
+    setIsPlay(false);
+    await sound.pauseAsync();
   };
 
   const upload = async () => {
@@ -87,20 +95,17 @@ const Record = ({ navigation, route }) => {
 
     try {
       const res = await axios.post("/uploads", formData);
-      setDirectory(res.data.directory);
+      const url = res.data.directory
       setUri(null);
+      navigation.dispatch(
+        CommonActions.navigate("End", {
+          questionId,
+          url,
+        })
+      );
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const finishRecord = async () => {
-    navigation.dispatch(
-      CommonActions.navigate("End", {
-        questionId,
-        url: directory,
-      })
-    );
   };
 
   return (
@@ -115,90 +120,123 @@ const Record = ({ navigation, route }) => {
             <Icon name="chevron-back" size={32} color="#000000" />
           </TouchableOpacity>
         </View>
-        <View>
-          <View
-            style={{
-              width: 250,
-              display: "flex",
-              flexDirection: "row",
-              position: "absolute",
-              marginTop: SIZES.height * 0.38 - 20,
-              justifyContent: "space-around",
-            }}
-          >
-            <View
-              style={{
-                backgroundColor: COLORS.white,
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                elevation: 2,
-              }}
-            ></View>
-            <View
-              style={{
-                backgroundColor: COLORS.white,
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                elevation: 2,
-              }}
-            ></View>
-          </View>
-          <View style={styles.rando_image}>
-            <Image
-              source={{
-                uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631097612874KakaoTalk_20210908_193939151.gif",
-              }}
-              style={{ width: 180, height: 180, borderRadius: 90 }}
-            />
-          </View>
+        <View style={styles.record_questionbox}>
+          <Text style={styles.header_text}>{question}</Text>
         </View>
-        {isRecording ? (
-          <View>
+        {isRecording ?
+          (
             <View>
-              <Stopwatch
-                laps
-                secs
-                start={isStopwatchStart}
-                reset={resetStopwatch}
-                options={options}
-                getTime={(time) => {}}
-              />
+              <View>
+                <View style={styles.rando_hand_container}    >
+                  <View style={styles.rando_hand}></View>
+                  <View style={styles.rando_hand}></View>
+                </View>
+                <View style={styles.rando_image}>
+                  <Image
+                    source={{
+                      uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631097612874KakaoTalk_20210908_193939151.gif",
+                    }}
+                    style={{ width: 180, height: 180, borderRadius: 90 }}
+                  />
+                </View>
+              </View>
+              <View>
+                <Stopwatch
+                  laps
+                  secs
+                  start={isStopwatchStart}
+                  reset={resetStopwatch}
+                  options={options}
+                  getTime={(time) => { }}
+                />
+              </View>
+
+              <TouchableOpacity
+                style={styles.record_stopbutton}
+                onPress={stopRecording}
+              >
+                <View style={styles.record_stopbutton_center}></View>
+              </TouchableOpacity>
             </View>
-            <Image
-              source={{
-                uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1630250037246rando.gif",
-              }}
-              style={{
-                width: 300,
-                height: 300,
-              }}
-            />
-          </View>
-        ) : (
-          <View></View>
-        )}
-        <Text>{question}</Text>
-        <Button
-          title={recording ? "Stop Recording" : "Start Recording"}
-          onPress={recording ? stopRecording : startRecording}
-        />
+          ) : (
+            uri
+              ? // 녹음 후
+              <View>
+                <View>
+                  <View style={styles.rando_hand_container}    >
+                    <View style={styles.rando_hand}></View>
+                    <View style={styles.rando_hand}></View>
+                  </View>
+                  <View style={styles.rando_image}>
+                    <Image
+                      source={{
+                        uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631111616790KakaoTalk_20210908_233308532.png",
+                      }}
+                      style={{ width: 180, height: 180, }}
+                    />
+                  </View>
+                </View>
+                <View style={{ height: 100 }} />
+                <TouchableOpacity
+                  style={styles.record_playbutton}
+                  onPress={isPlay ? stopSound : playSound}
+                >
+                  {isPlay ?
+                    <Icon name="pause" size={44} color={COLORS.white} />
+                    : <Icon name="play" size={44} color={COLORS.white} />}
+                </TouchableOpacity>
+                <View
+                  style={{ 
+                    width:"100%", 
+                    flexDirection: 'row', 
+                    justifyContent:'space-between', 
+                    position:'absolute',
+                    marginTop:SIZES.height-360}}
+                >
+                  <TouchableOpacity
+                    style={styles.record_again}
+                    onPress={startRecording}
+                  >
+                    <Icon name="refresh" size={24} color={COLORS.green} />
+                    <Text style={styles.record_button_text}>다시하기</Text>                    
+                  </TouchableOpacity>
 
-        {uri && <Button title="녹음 완료? 업로드!" onPress={upload} />}
-
-        {directory && !recording && (
-          <View>
-            <Text>업로드 완료!</Text>
-            <Text>{directory}</Text>
-            <Text>Audio</Text>
-            <Button
-              title={sound ? "정지" : "들어보기"}
-              onPress={sound ? stopSound : playSound}
-            />
-            <Button title="녹음 완료!" onPress={finishRecord} />
-          </View>
-        )}
+                  <TouchableOpacity
+                    style={styles.record_upload}
+                    onPress={upload}
+                  >
+                    <Text style={styles.record_button_text}>녹음완료</Text>
+                    <Icon name="chevron-forward" size={24} color={COLORS.green} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              : // 녹음 전
+              <View>
+                <View>
+                  <View style={styles.rando_hand_container}    >
+                    <View style={styles.rando_hand}></View>
+                    <View style={styles.rando_hand}></View>
+                  </View>
+                  <View style={styles.rando_image}>
+                    <Image
+                      source={{
+                        uri: "https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631111616790KakaoTalk_20210908_233308532.png",
+                      }}
+                      style={{ width: 180, height: 180, }}
+                    />
+                  </View>
+                </View>
+                <View style={{ height: 100 }} />
+                <View>
+                  <TouchableOpacity
+                    style={styles.record_recordbutton}
+                    onPress={startRecording}
+                  >
+                    <Icon name="mic-outline" size={48} color={COLORS.white} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+          )}
       </View>
     </View>
   );
@@ -206,15 +244,13 @@ const Record = ({ navigation, route }) => {
 
 const options = {
   container: {
-    backgroundColor: "#FF0000",
-    padding: 5,
-    borderRadius: 5,
-    width: 200,
+    height: 100,
     alignItems: "center",
+    justifyContent: 'center',
   },
   text: {
-    fontSize: 25,
-    color: "#FFF",
+    fontSize: 50,
+    color: COLORS.gray,
     marginLeft: 7,
   },
 };

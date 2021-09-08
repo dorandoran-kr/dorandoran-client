@@ -7,12 +7,15 @@ import {
   Button,
   SafeAreaView,
   TextInput,
+  TouchableOpacity,
+  TouchableOpacityBase
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "../../../axios";
-import Styles from "../styles";
-import { COLORS } from '../../../components/theme'
+import styles from "./styles";
+import { COLORS, SIZES } from '../../../components/theme'
 
 const End = ({ navigation, route }) => {
   const [token, setToken] = useState();
@@ -58,55 +61,51 @@ const End = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      {
-        isEnd
-        ?
-        <View>
-          <Text>녹음이 완료되었습니다!</Text>
-          <Text>이야기를 들려주셔서 감사해요.</Text>
-          <Button
-            title="홈으로 이동"
+    <View style={styles.containerfull}>
+      <View style={styles.whitecontainer}>
+        
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.dispatch(CommonActions.navigate("Explain"));
+              }}
+            >
+              <Icon name="close" size={32} color="#000000" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.record_endbox}>
+            <Text style={styles.record_text}>
+              녹음이 완료되었습니다!
+              이야기를 들려주셔서 감사해요.
+              다음에 또 다른 이야기도 들려주세요!
+            </Text>
+          </View>
+          <Text style={styles.header_text}>
+            더 들려주실 이야기가 있다면
+          </Text>
+          <TouchableOpacity 
+            style={styles.green_longbutton} 
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate('Home'))
-            }}
-          />
-        </View>
-        :
-        <View>
-          <Text>Ending...</Text>
-          <TextInput
-            style={Styles.input_box}
-            onChangeText={onChangeTitle}
-            value={title}
-            placeholder="제목을 입력해주세요"
-          />
-
-          <TextInput
-            style={Styles.input_box}
-            onChangeText={onChangeDescription}
-            value={description}
-            placeholder="설명을 입력해주세요"
-          />
-          {isError && (
-            <Text style={{ color: COLORS.red }}>업로드에 실패했습니다.</Text>
-          )}
-          <Button
-            title="작성 완료"
-            onPress={createPost}
-          />
-        </View>
-      }
+              navigation.dispatch(CommonActions.navigate('Category', {id: 4})) }}
+          >
+            <Text style={styles.green_longbutton_text}>계속 하기</Text>
+          </TouchableOpacity>
+          <View style={{width:SIZES.width, alignItems:'flex-end', position:'absolute', marginTop:SIZES.height-120, paddingHorizontal:30}}>
+            <TouchableOpacity
+              style={styles.record_upload}
+              onPress={() => {
+                navigation.dispatch(CommonActions.navigate('Home')) }}
+            >
+              <Text style={styles.record_button_text}>녹음완료</Text>
+              <Icon name="chevron-forward" size={24} color={COLORS.green} />
+            </TouchableOpacity>
+          </View>
+        
+      </View>
+      
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default End;

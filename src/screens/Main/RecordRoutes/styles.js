@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     color:COLORS.green2,
     fontSize:20,
     alignSelf:'center',
-    marginBottom:12,
+    lineHeight:30
   },
   categorytext:{
     fontFamily:FONTS.NanumSquareEB,
@@ -77,8 +77,18 @@ const styles = StyleSheet.create({
     fontSize:18,
     lineHeight:30,
   },
+  record_questionbox:{
+    backgroundColor:COLORS.white,
+    width:"100%",
+    height:128,
+    elevation:1,
+    borderRadius:20,
+    padding:24,
+    marginVertical:24,
+    justifyContent:'center'
+  },
   rando_image:{
-    backgroundColor:COLORS.green,
+    backgroundColor:COLORS.green2,
     width:200,
     height:200,
     borderRadius:100,
@@ -86,6 +96,111 @@ const styles = StyleSheet.create({
     alignItems:'center',
     paddingRight:2,
     alignSelf:'center'
+  },
+  rando_hand_container:{
+    width: 180,
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
+    marginTop: 175,
+    left: SIZES.width * 0.5 - 90-30,
+    justifyContent: "space-around",
+  },
+  rando_hand:{
+    backgroundColor: COLORS.white,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    elevation: 2,
+  },
+  record_recordbutton:{
+    width:72,
+    height:72,
+    borderRadius:36,
+    backgroundColor:COLORS.green,
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center',
+    
+  },
+  record_stopbutton:{
+    width:72,
+    height:72,
+    borderRadius:36,
+    backgroundColor:COLORS.red,
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center',    
+  },
+  record_stopbutton_center:{
+    width:24, 
+    height:24, 
+    borderRadius:5, 
+    backgroundColor:COLORS.white
+  },
+  record_playbutton:{
+    width:72,
+    height:72,
+    borderRadius:36,
+    backgroundColor:COLORS.gray,
+    paddingLeft:2,
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center',    
+  },
+  record_upload:{
+    width:125,
+    height:50,
+    borderRadius:25,
+    borderWidth:2,
+    borderColor: COLORS.green,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  record_button_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.green,
+    fontSize:18,
+  },
+  record_again:{
+    width:125,
+    height:50,
+    borderColor: COLORS.green,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  record_endbox:{
+    width:"100%",
+    backgroundColor:COLORS.white,
+    elevation:1,
+    borderRadius:20,
+    padding:40,
+    marginTop:60,
+    marginBottom:30,
+  },
+  record_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.gray,
+    fontSize:20,
+    alignSelf:'center',
+    lineHeight:30
+  },
+  green_longbutton:{
+    width:'90%',
+    height:48,
+    borderRadius:15,
+    backgroundColor:COLORS.green,
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:24,
+  },
+  green_longbutton_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.white,
+    fontSize:16,
   },
 })
 

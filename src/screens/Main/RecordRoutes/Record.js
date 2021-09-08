@@ -10,8 +10,8 @@ import {
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
-import axios from "axios";
 
+import axios from "../../../axios";
 import Styles from "../styles";
 
 const Record = ({ navigation, route }) => {
@@ -87,7 +87,7 @@ const Record = ({ navigation, route }) => {
     });
 
     try {
-      const res = await axios.post('http://3.35.66.47/uploads', formData);
+      const res = await axios.post('/uploads', formData);
       setDirectory(res.data.directory);
       setUri(null);
     } catch (error) {
@@ -95,30 +95,11 @@ const Record = ({ navigation, route }) => {
     }
   }
 
-  const createPost = async () => {
-    try {
-      const resp = await axios.post(
-        'http://3.35.66.47/posts',
-        {
-          title: "",
-          description: "",
-          thumbnailUrl: "",
-          questionId,
-          url: directory
-        },
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-      );
-
-      console.log(resp);
-      navigation.dispatch(CommonActions.navigate('End'))
-    } catch (error) {
-      setError(true);
-      console.error(error);
-    }
+  const finishRecord = async () => {
+    navigation.dispatch(CommonActions.navigate("End", { 
+      questionId,
+      url: directory
+    }));
   }
 
   return (
@@ -172,7 +153,7 @@ const Record = ({ navigation, route }) => {
           />
           <Button
             title="녹음 완료!"
-            onPress={createPost}
+            onPress={finishRecord}
           />
         </View>
       }

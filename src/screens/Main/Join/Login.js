@@ -7,9 +7,9 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import axios from "../../../axios.js";
 import Styles from "./styles.js";
 import { COLORS } from "../../../components/theme";
 
@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     if (token) {
-      axios.get('http://3.35.66.47/users/me', {
+      axios.get('/users/me', {
         headers: {
           Authorization: token
         }

@@ -7,9 +7,9 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import axios from "axios";
 import { CommonActions } from "@react-navigation/native";
 
+import axios from "../../../axios";
 import Styles from "../styles";
 
 const Explain = ({ navigation, route }) => {
@@ -20,7 +20,7 @@ const Explain = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`http://3.35.66.47/categories/${id}`);
+      const resp = await axios.get(`/categories/${id}`);
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);

@@ -3,16 +3,12 @@ import {
   View,
   Button,
   Text,
-  SafeAreaView,
   StyleSheet,
-  Animated,
-  Pressable,
   Image
 } from "react-native";
 import { Audio } from "expo-av";
-// import LinearGradient from "react-native-linear-gradient";
-// import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
-import axios from "axios";
+
+import axios from "../../axios";
 
 const Record = () => {
   const [recording, setRecording] = useState();
@@ -78,7 +74,7 @@ const Record = () => {
     });
 
     try {
-      const res = await axios.post('http://3.35.66.47/uploads', formData);
+      const res = await axios.post('/uploads', formData);
       setDirectory(res.data.directory);
       setUri(null);
     } catch (error) {

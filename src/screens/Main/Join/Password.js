@@ -7,9 +7,9 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import axios from "../../../axios.js";
 import Styles from "./styles.js";
 import { COLORS } from "../../../components/theme";
 
@@ -27,7 +27,7 @@ const Password = ({ navigation, route }) => {
 
   const Login = async () => {
     try {
-      const resp = await axios.post(`http://3.35.66.47/users/login`, {
+      const resp = await axios.post(`/users/login`, {
         phoneNumber,
         password: PW,
         screen: "Home",

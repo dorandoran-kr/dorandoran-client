@@ -9,13 +9,51 @@ import {
   TextInput,
 } from "react-native";
 
+import axios from "../../../axios";
 import Styles from "../styles";
 
-const End = ({ navigation }) => {
+const End = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [title, onChangeTitle] = useState("");
   const [description, onChangeDescription] = useState("");
 
   const [isEnd, setEnd] = useState(false);
+  const [isError, setError] = useState(false);
+
+  const { questionId, url } = route.params;
+
+  useEffect(() => {
+    (async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
+    })();
+  }, [])
+
+  const createPost = async () => {
+    try {
+      const resp = await axios.post(
+        '/posts',
+        {
+          title: title,
+          description: description,
+          thumbnailUrl: "",
+          questionId,
+          url: url
+        },
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      );
+
+      setEnd(true);
+    } catch (error) {
+      setError(true);
+      console.error(error);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -48,12 +86,14 @@ const End = ({ navigation }) => {
             value={description}
             placeholder="설명을 입력해주세요"
           />
+          {isError && (
+            <Text style={{ color: COLORS.red }}>업로드에 실패했습니다.</Text>
+          )}
           <Button
             title="작성 완료"
-            onPress={() => {setEnd(true)}}
+            onPress={createPost}
           />
         </View>
-        
       }
     </View>
   );

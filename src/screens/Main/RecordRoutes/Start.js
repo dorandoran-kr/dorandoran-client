@@ -26,8 +26,6 @@ const Start = ({ navigation }) => {
     })();
   }, []);
 
-  console.log(categories);
-
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {

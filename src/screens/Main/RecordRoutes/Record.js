@@ -3,13 +3,15 @@ import { View, Button, Text, TouchableOpacity, Image } from "react-native";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
-import { Stopwatch } from "react-native-stopwatch-timer";
+import { Stopwatch, Timer } from "react-native-stopwatch-timer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "../../../axios";
 import styles from "./styles";
 import { COLORS, SIZES } from "../../../components/theme";
 
 const Record = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [recording, setRecording] = useState();
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
@@ -19,11 +21,14 @@ const Record = ({ navigation, route }) => {
   const [timerDuration, setTimerDuration] = useState(90000);
   const [resetTimer, setResetTimer] = useState(false);
   const [resetStopwatch, setResetStopwatch] = useState(false);
+  const [audioTime, setAudioTime] = useState(0);
 
   const [isRecording, setIsRecording] = useState(false);
   const [isError, setError] = useState(false);
 
   const { questionId, question } = route.params;
+
+  let recordTime = 0;
 
   useEffect(() => {
     (async () => {
@@ -32,6 +37,11 @@ const Record = ({ navigation, route }) => {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
+    })();
+    (async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
     })();
   }, []);
 
@@ -60,6 +70,8 @@ const Record = ({ navigation, route }) => {
     setIsStopwatchStart(false);
     setUri(uri);
     setIsRecording(false);
+    console.log(recordTime);
+    setAudioTime(recordTime);
   };
 
   const playSound = async () => {
@@ -72,12 +84,15 @@ const Record = ({ navigation, route }) => {
       await sound.playAsync();
     }
     setIsPlay(true);
+    setIsTimerStart(true);
+    setResetTimer(false);
 
     await sound.playAsync();
   };
 
   const stopSound = async () => {
     setIsPlay(false);
+    setIsTimerStart(false);
     await sound.pauseAsync();
   };
 
@@ -96,17 +111,35 @@ const Record = ({ navigation, route }) => {
     try {
       const res = await axios.post("/uploads", formData);
       const url = res.data.directory
-      setUri(null);
-      navigation.dispatch(
-        CommonActions.navigate("End", {
+
+      await axios.post(
+        '/posts',
+        {
+          title: "",
+          description: "",
+          thumbnailUrl: "",
           questionId,
-          url,
-        })
+          url: url
+        },
+        {
+          headers: {
+            // TODO: fix
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywicGhvbmVOdW1iZXIiOiIwMTAyODE1NDI4MSIsImlhdCI6MTYzMTExNjEyMCwiZXhwIjoxNjMxMjAyNTIwfQ.aE0Nf1V3lcQN7MxA5h1BrtygNjBUDoQc6GMA3GSlHFY"
+          }
+        }
+      );
+      navigation.dispatch(
+        CommonActions.navigate("End")
       );
     } catch (error) {
       console.error(error);
     }
   };
+
+  const updateTime = (time) => {
+    const a = time.split(':');
+    recordTime = Number(a[0]) * 60 * 60 + Number(a[1]) * 60 + Number(a[2]);
+  }
 
   return (
     <View style={styles.containerfull}>
@@ -114,7 +147,7 @@ const Record = ({ navigation, route }) => {
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate("Explain"));
+              navigation.dispatch(CommonActions.goBack());
             }}
           >
             <Icon name="chevron-back" size={32} color="#000000" />
@@ -147,7 +180,7 @@ const Record = ({ navigation, route }) => {
                   start={isStopwatchStart}
                   reset={resetStopwatch}
                   options={options}
-                  getTime={(time) => { }}
+                  getTime={updateTime}
                 />
               </View>
 
@@ -176,7 +209,15 @@ const Record = ({ navigation, route }) => {
                     />
                   </View>
                 </View>
-                <View style={{ height: 100 }} />
+                <Timer
+                  totalDuration={audioTime * 1000}
+                  secs
+                  start={isTimerStart}
+                  reset={resetTimer}
+                  options={options}
+                  handleFinish={() => {}}
+                  getTime={(time) => {}}
+                />
                 <TouchableOpacity
                   style={styles.record_playbutton}
                   onPress={isPlay ? stopSound : playSound}

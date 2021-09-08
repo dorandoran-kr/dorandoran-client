@@ -4,59 +4,47 @@ import { COLORS, FONTS, SIZES } from "../../../components/theme";
 const styles = StyleSheet.create({
   containerfull:{
     backgroundColor:COLORS.green,
+    width:'100%',
+    height:'100%',
   },
-  header:{
-    width:SIZES.width,
-    height:104,
-    paddingTop:38,
-    paddingHorizontal:24,
-    backgroundColor:COLORS.white,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height:2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 1,
-    //position:'absolute',
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-between'
+  whitecontainer:{
+    marginTop:36,
+    flex:1,
+    width:'100%',
+    backgroundColor:COLORS.backgray,
+    borderTopLeftRadius:40,
+    borderTopRightRadius:40,  
+    padding:30,
   },
   header_text:{
     fontFamily:FONTS.NanumSquareB,
-    color:COLORS.black,
+    color:COLORS.green2,
     fontSize:20,
+    alignSelf:'center',
+    marginBottom:12,
   },
-  body_container: {
-    height:SIZES.height-104,
-    paddingHorizontal: 24,
-    paddingVertical: 40,
-  },
-  info_textcontainer: {
-    marginTop: 20,    
-  },
-  info_text: {
-    fontFamily: FONTS.NanumSquareEB,
-    color: COLORS.black,
-    fontSize: 24,
-    marginBottom: 16
-  },
-  main_categorytext:{
+  categorytext:{
     fontFamily:FONTS.NanumSquareEB,
     color:COLORS.gray,
-    fontSize:24,
+    fontSize:18,
     marginLeft:20
   },
-  main_categorycard:{
+  categorycard:{
     backgroundColor: COLORS.white, 
-    width:SIZES.width-48,
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center',
-    paddingVertical:20,
-    borderBottomWidth:0.5,
-    borderBottomColor:COLORS.lightGray,    
+    width:SIZES.width-96,
+    height:56,
+    alignSelf:'center',
+    justifyContent:'center',
+    borderRadius:15,
+    marginBottom:14,
+    elevation:1,    
+  },
+  cautiontext:{
+    fontFamily:FONTS.NanumSquareEB,
+    color:COLORS.red,
+    fontSize:16,
+    marginBottom:10,
+    alignSelf:'center'
   },
 })
 

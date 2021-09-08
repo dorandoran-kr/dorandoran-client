@@ -89,83 +89,51 @@ const Styles = StyleSheet.create({
     borderRadius:20,
     marginRight:8,
     alignItems:'center',
-    justifyContent:'center',
-    // elevation:2,
-    // marginVertical: 8,
-    // marginLeft: 24,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 3,
-    // elevation: 2,
-    // borderWidth:0.3,
-    // borderColor:COLORS.lightGray
+    justifyContent:'center',    
   },
-
-
+  whitecontainer:{
+    marginTop:36,
+    flex:1,
+    width:'100%',
+    backgroundColor:COLORS.backgray,
+    borderTopLeftRadius:40,
+    borderTopRightRadius:40,  
+    padding:30,
+  },
   header:{
-    width:SIZES.width,
-    height:104,
-    paddingTop:38,
-    paddingHorizontal:24,
-    backgroundColor:COLORS.white,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height:2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 1,
-    position:'absolute',
     flexDirection:'row',
     alignItems:'center',
-    justifyContent:'space-between'
+  },
+  header_title:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.gray,
+    fontSize:18,
   },
   header_text:{
     fontFamily:FONTS.NanumSquareB,
-    color:COLORS.black,
+    color:COLORS.green2,
     fontSize:20,
+    alignSelf:'center',
+    marginBottom:12,
   },
-  main_bluebox:{
-    width:"100%",
-    height:SIZES.height*0.55,
-    backgroundColor:"#99BEF0",
-    borderBottomLeftRadius: 30,
-    paddingTop:100,     
-  },
-  
-  main_blueboxbutton:{
-    height:144,
-    width:144,
-    borderRadius:72,
-    backgroundColor:COLORS.white,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation:2,
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  main_categorycontainer:{
-    height:SIZES.height*0.5,
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'flex-start',
-    paddingTop:SIZES.height*0.05,
-  },
-  main_categorytitle:{
+  categorytext:{
     fontFamily:FONTS.NanumSquareEB,
     color:COLORS.gray,
-    fontSize:20,
-    marginLeft:24,
-    marginBottom:10,
+    fontSize:18,
+    marginLeft:20
   },
+  categorycard:{
+    backgroundColor: COLORS.white, 
+    width:SIZES.width-96,
+    height:56,
+    alignSelf:'center',
+    justifyContent:'center',
+    borderRadius:15,
+    marginBottom:14,
+    elevation:1,    
+  },
+
+  
   
   
   category_listcontainer:{

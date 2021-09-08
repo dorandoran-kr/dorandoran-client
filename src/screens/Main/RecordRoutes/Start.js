@@ -48,9 +48,9 @@ const Start = ({ navigation }) => {
             navigation.dispatch(CommonActions.navigate("Home"));
           }}
         >
-          <Icon name="close" size={24} color="#000000" />
+          <Icon name="close" size={32} color="#000000" />
         </TouchableOpacity>
-        <View style={{ marginTop: 48 }}>
+        <View style={{ marginTop: 35 }}>
           <Text style={styles.header_text}>어떤 주제에 관한 이야기를</Text>
           <Text style={styles.header_text}>들려주실 건가요?</Text>
         </View>

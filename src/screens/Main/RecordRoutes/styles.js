@@ -16,6 +16,15 @@ const styles = StyleSheet.create({
     borderTopRightRadius:40,  
     padding:30,
   },
+  header:{
+    flexDirection:'row',
+    alignItems:'center',
+  },
+  header_title:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.gray,
+    fontSize:18,
+  },
   header_text:{
     fontFamily:FONTS.NanumSquareB,
     color:COLORS.green2,
@@ -45,6 +54,21 @@ const styles = StyleSheet.create({
     fontSize:16,
     marginBottom:10,
     alignSelf:'center'
+  },
+  questionbox:{
+    backgroundColor:COLORS.white,
+    padding:24,
+    paddingBottom:36,
+    borderRadius:15,
+    marginHorizontal:6,
+    marginBottom:12,
+    elevation:1,
+  },
+  questionbox_text:{
+    fontFamily:FONTS.NanumSquareEB,
+    color:COLORS.gray,
+    fontSize:18,
+    lineHeight:30,
   },
 })
 

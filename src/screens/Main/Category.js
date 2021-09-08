@@ -7,12 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import RNPickerSelect from "react-native-picker-select";
+import { CommonActions } from "@react-navigation/native";
 
 import axios from "../../axios";
 import { COLORS, FONTS, SIZES } from "../../components/theme";
 import Styles from "./styles.js";
-import { CommonActions } from "@react-navigation/native";
 
 const Category = ({ navigation, route }) => {
   const [questions, setQuestions] = useState();
@@ -56,7 +55,9 @@ const Category = ({ navigation, route }) => {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate('AudioCopy', {id: item.id}))
+              navigation.dispatch(CommonActions.navigate('AudioList', {
+                id: item.id,
+              }))
             }}
           >
             <View style={Styles.category_list}>

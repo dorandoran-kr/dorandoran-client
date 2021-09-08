@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import axios from '../../axios';
 import Styles from './styles';
 import { CommonActions } from '@react-navigation/native';
 
@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get('http://3.35.66.47/categories');
+      const resp = await axios.get('/categories');
 
       setCategories(resp.data);
     })();
@@ -27,7 +27,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (token) {
       (async () => {
-        const user = await axios.get('http://3.35.66.47/users/me', {
+        const user = await axios.get('/users/me', {
           headers: {
             Authorization: token
           }

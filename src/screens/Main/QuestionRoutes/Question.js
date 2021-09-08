@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, StyleSheet, Text, Button } from "react-native";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import axios from "../../../axios";
 import { COLORS } from "../../../components/theme";
 
 const Question = ({ navigation, route }) => {
@@ -22,7 +22,7 @@ const Question = ({ navigation, route }) => {
   const createQuestion = async () => {
     try {
       const resp = await axios.post(
-        `http://3.35.66.47/questions/${id}`,
+        `/questions/${id}`,
         {
           text: question,
         },

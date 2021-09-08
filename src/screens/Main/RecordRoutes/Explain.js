@@ -7,8 +7,10 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import axios from "axios";
 import { CommonActions } from "@react-navigation/native";
+
+import axios from "../../../axios";
+import Styles from "../styles";
 
 const Explain = ({ navigation, route }) => {
   const [questions, setQuestions] = useState();
@@ -18,7 +20,7 @@ const Explain = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`http://3.35.66.47/categories/${id}`);
+      const resp = await axios.get(`/categories/${id}`);
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);
@@ -26,8 +28,14 @@ const Explain = ({ navigation, route }) => {
   }, [id]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity>
-      <Text>{item.text}</Text>
+    <TouchableOpacity
+      onPress={() => navigation.dispatch(CommonActions.navigate("Record", {
+        questionId: item.id
+      }))}
+    >
+      <View style={Styles.main_categorycard}>
+        <Text>{item.text}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -39,19 +47,13 @@ const Explain = ({ navigation, route }) => {
         </Text>
       )}
 
+      <Text>어떤 질문에 답을 해주시겠어요?</Text>
+
       <FlatList
         data={questions}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         showsHorizontalScrollIndicator={false}
-      />
-
-      <Text>녹음 전 유의사항!</Text>
-      <Text>이 부분을 녹음해주세요!</Text>
-
-      <Button
-        onPress={() => navigation.dispatch(CommonActions.navigate("Record"))}
-        title="녹음 시작!"
       />
     </View>
   );

@@ -7,10 +7,10 @@ import {
   Text,
   Image,
 } from "react-native";
-import axios from "axios";
 import { CommonActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import axios from "../../../axios";
 import Styles from "../styles";
 
 const Start = ({ navigation }) => {
@@ -18,7 +18,7 @@ const Start = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get("http://3.35.66.47/categories");
+      const resp = await axios.get("/categories");
 
       setCategories(resp.data);
     })();

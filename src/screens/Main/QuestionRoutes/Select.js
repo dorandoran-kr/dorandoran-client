@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
+
+import axios from '../../../axios';
+import Styles from '../styles';
 
 const Select = ({ navigation, route }) => {
   const [categories, setCategories] = useState();
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get('http://3.35.66.47/categories');
+      const resp = await axios.get('/categories');
 
       setCategories(resp.data);
     })();
@@ -23,13 +25,14 @@ const Select = ({ navigation, route }) => {
         }))
       }}
     >
-      <Text>{item.title}</Text>
+      <View style={Styles.main_categorycard}>
+        <Text style={Styles.main_categorytext}>{item.title}</Text>
+      </View>
     </TouchableOpacity>
   )
 
   return (
     <View style={styles.container}>
-      <Text>hi</Text>
       <FlatList 
         data={categories}
         renderItem={renderItem}
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: "30%",
   },
 });
 

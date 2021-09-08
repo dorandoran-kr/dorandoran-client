@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { RadioButtons } from 'react-native-radio-buttons';
 
+import styles from "./styles";
+import { COLORS } from "../../../components/theme";
 import axios from "../../../axios";
-import Styles from "../styles";
 
 const Start = ({ navigation }) => {
   const [categories, setCategories] = useState();
@@ -32,46 +34,41 @@ const Start = ({ navigation }) => {
         navigation.dispatch(CommonActions.navigate("Explain", { id: item.id }));
       }}
     >
-      <View style={Styles.main_categorycard}>
-        <Image
-          source={{ uri: item.thumbnailUrl }}
-          style={{ width: 120, height: 120, borderRadius: 10 }}
-        />
-        <Text style={Styles.main_categorytext}>{item.title}</Text>
+      <View style={styles.categorycard}>
+        <Text style={styles.categorytext}>{item.title}</Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      <View style={Styles.header}>
+    <View style={styles.containerfull}>
+      <View style={styles.whitecontainer}>
         <TouchableOpacity
           onPress={() => {
             navigation.dispatch(CommonActions.navigate("Home"));
           }}
         >
-          <Icon name="chevron-back" size={24} color="#000000" />
+          <Icon name="close" size={32} color="#000000" />
         </TouchableOpacity>
-        <View style={{ width: 24 }}></View>
+        <View style={{ marginTop: 35 }}>
+          <Text style={styles.header_text}>어떤 주제에 관한 이야기를</Text>
+          <Text style={styles.header_text}>들려주실 건가요?</Text>
+        </View>
+        <View style={{height:400}}>
+          <FlatList
+            data={categories}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+            ListHeaderComponent={<View style={{ height: 24 }} />}
+          />
+        </View>
+        <Text style={styles.cautiontext}>깔끔한 녹음을 위해 조용한 곳에서</Text>
+        <Text style={styles.cautiontext}>이야기를 시작해주세요</Text>
       </View>
-      <FlatList
-        data={categories}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-        ListFooterComponent={<View style={{ width: 24 }} />}
-      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: "30%",
-  },
-});
 
 export default Start;

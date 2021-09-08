@@ -5,7 +5,6 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  StyleSheet,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import RNPickerSelect from "react-native-picker-select";
@@ -34,39 +33,26 @@ const Category = ({ navigation, route }) => {
 
       setQuestions(resp.data.questions);
       setCategory(resp.data.category);
+      console.log(resp.data.questions)
     })();
   }, [id]);
 
   return (
     <View style={Styles.containerfull}>
-      <View
-        style={{
-          marginTop: 124,
-          //flexDirection:'row', alignItems:'center', justifyContent:'flex-end',
-          marginLeft: SIZES.width - 124,
-        }}
-      >
-        <View>
-          <RNPickerSelect
-            placeholder={placeholder}
-            onValueChange={(value) => console.log(value)}
-            style={{
-              backgrounColor: COLORS.orange,
-              placeholder: {
-                color: COLORS.black,
-              },
+      <View style={Styles.whitecontainer}>
+        <View style={Styles.header}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(CommonActions.navigate('Home'));
             }}
-            items={[
-              { label: "인기순", value: "football" },
-              { label: "이름순", value: "baseball" },
-            ]}
-          />
+          >
+            <Icon name="chevron-back" size={32} color="#000000" />
+          </TouchableOpacity>
+          <Text style={Styles.header_title}>{category && category.title}</Text>
         </View>
-        {/* <Icon name="chevron-down" size={20} color={COLORS.gray}/> */}
-      </View>
-
-      <FlatList
-        style={Styles.category_listcontainer}
+        <View style={{height:100, width:20, backgroundColor:COLORS.white}}></View>
+        <FlatList
+        //style={Styles.category_listcontainer}
         data={questions}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -83,17 +69,19 @@ const Category = ({ navigation, route }) => {
           </TouchableOpacity>
         )}
       />
-
-      <View style={Styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.dispatch(CommonActions.navigate('Home'))
-          }}
-        >
-          <Icon name="chevron-back" size={24} color="#000000" />
-        </TouchableOpacity>
-        <Text style={Styles.header_text}>{category?.title}</Text>
-        <View style={{ width: 24 }}></View>
+ 
+          <View style={Styles.tabbar}>
+            <Icon name="home" size={32} color={COLORS.green} />
+            <Icon name="person" size={32} color={COLORS.lightGray} />
+          </View>
+          <TouchableOpacity
+            style={Styles.tabbar_button}
+            onPress={() => {
+              navigation.dispatch(CommonActions.reset({ routes: [{ name: 'Record' }] }))
+            }}
+          ><Icon name="add" size={48} color={COLORS.white} />
+          </TouchableOpacity>
+        
       </View>
     </View>
   );

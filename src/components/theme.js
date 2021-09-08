@@ -5,17 +5,19 @@ import * as Font from 'expo-font';
 const { width, height } = Dimensions.get("window");
 
 export const COLORS = {
-	green: "#003F3A",
-	red: "#E13740",
+	green: "#50756A",
+	green2: '#5F9680',
+	red: "#FF6666",
 	yellow: "#FFC502",
 	skyblue:"#99BEF0",
 
+	backgray:'#F8F8F8',
 	lightGray: "#C3C3C3",
 	gray: "#555555",
 	white: "#FFFFFF",
 	orange: "#E88153",
 	DarkGray: "#8A8A8F",
-	black: "#000000"
+	black: "#000000",
 
 }
 

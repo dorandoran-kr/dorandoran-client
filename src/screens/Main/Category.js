@@ -50,7 +50,6 @@ const Category = ({ navigation, route }) => {
           </TouchableOpacity>
           <Text style={Styles.header_title}>{category && category.title}</Text>
         </View>
-        <View style={{height:100, width:20, backgroundColor:COLORS.white}}></View>
         <FlatList
         //style={Styles.category_listcontainer}
         data={questions}
@@ -61,9 +60,9 @@ const Category = ({ navigation, route }) => {
             }}
           >
             <View style={Styles.category_list}>
-              <View style={Styles.category_profile} />
               <View style={Styles.category_textcontainer}>
                 <Text style={Styles.category_text1}>{item.text}</Text>
+                <Text style={Styles.category_text2}>외 명이 답변함</Text>
               </View>
             </View>
           </TouchableOpacity>

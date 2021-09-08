@@ -34,7 +34,8 @@ const Explain = ({ navigation, route }) => {
     <TouchableOpacity
       style={styles.questionbox}
       onPress={() => navigation.dispatch(CommonActions.navigate("Record", {
-        questionId: item.id
+        questionId: item.id,
+        question: item.text
       }))}
     >
       <Text style={styles.questionbox_text}>{item.text}</Text>
@@ -68,15 +69,6 @@ const Explain = ({ navigation, route }) => {
         />}
 
       </View>
-
-      <Text>어떤 질문에 답을 해주시겠어요?</Text>
-
-      <FlatList
-        data={questions}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-      />
     </View>
   );
 };

@@ -18,7 +18,7 @@ const Main = () => {
       tabBarOptions={{
         showLabel: false,
       }}
-      initialRouteName="Join"
+      initialRouteName="Home"
     >
       <Tab.Screen
         name="Home"

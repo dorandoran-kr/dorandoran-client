@@ -8,9 +8,13 @@ import {
   FlatList,
   TouchableOpacity
 } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
+import Styles from './styles';
+import { COLORS, SIZES } from "../../components/theme";
 
 import axios from "../../axios";
+import styles from "./RecordRoutes/styles";
 
 const AudioList = ({ navigation, route }) => {
   const [question, setQuestion] = useState();
@@ -25,45 +29,55 @@ const AudioList = ({ navigation, route }) => {
       setQuestion(resp.data);
       setPosts(resp.data.Posts);
     })();
-  }, []);
+  }, [id]);
 
   return (
-    <View style={styles.container}>
-      <Text>{question?.text}</Text>
-      <Text>hi</Text>
-      <Button
-        title="home"
-        onPress={() => navigation.navigate('Home')}
-      />            
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <View>
-            <TouchableOpacity
-              onPress={
-                () => {
-                  navigation.dispatch(CommonActions.navigate("AudioScreen", {
-                    id: item.id
-                  }));
-                }
-              }
-            >
-              <Text>{`${item.User?.nickname}님의 답변`}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+    <View style={Styles.containerfull}>
+      <View style={Styles.whitecontainer}>
+        <View style={Styles.header}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(CommonActions.navigate('Category'));
+            }}
+          >
+            <Icon name="chevron-back" size={32} color="#000000" />
+          </TouchableOpacity>
+        </View>
+        <View style={{width:'100%', alignItems:'center'}}>
+          <Text style={Styles.header_text}>{question?.text}</Text>
+        </View>
+        <View  style={{marginTop:50}}>
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => (
+              <View>
+                <TouchableOpacity
+                  onPress={
+                    () => {
+                      navigation.dispatch(CommonActions.navigate("AudioScreen", {
+                        id: item.id
+                      }));
+                    }
+                  }
+                  style={Styles.play_list}
+                >
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={Styles.play_list_ninametext}>{`${item.User?.nickname}`}</Text>
+                    <Text style={Styles.play_list_ninametext2}>님의 답변</Text>
+                  </View>
+                  <View style={Styles.play_list_button_container}>
+                    <Icon name="play" size={20} color={COLORS.gray} />
+                    <Icon name="heart-outline" size={20} color={COLORS.gray} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+      </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default AudioList;

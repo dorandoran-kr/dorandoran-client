@@ -31,7 +31,7 @@ const Main = () => {
           borderTopLeftRadius: 10,
         },
       }}
-      initialRouteName="Home"
+      initialRouteName="Join"
     >
       <Tab.Screen
         name="Home"

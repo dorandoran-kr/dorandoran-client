@@ -7,6 +7,13 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
   },
+  backscreen:{
+    height:15,
+    width:'95%',
+    backgroundColor:COLORS.gray,
+    position:'absolute',
+    top:40,
+  },
   whitecontainer:{
     marginTop:36,
     flex:1,
@@ -69,6 +76,16 @@ const styles = StyleSheet.create({
     color:COLORS.gray,
     fontSize:18,
     lineHeight:30,
+  },
+  rando_image:{
+    backgroundColor:COLORS.green,
+    width:200,
+    height:200,
+    borderRadius:100,
+    justifyContent:'flex-end',
+    alignItems:'center',
+    paddingRight:2,
+    alignSelf:'center'
   },
 })
 

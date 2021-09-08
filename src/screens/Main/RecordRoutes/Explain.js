@@ -34,7 +34,8 @@ const Explain = ({ navigation, route }) => {
     <TouchableOpacity
       style={styles.questionbox}
       onPress={() => navigation.dispatch(CommonActions.navigate("Record", {
-        questionId: item.id
+        questionId: item.id,
+        question: item.text
       }))}
     >
       <Text style={styles.questionbox_text}>{item.text}</Text>

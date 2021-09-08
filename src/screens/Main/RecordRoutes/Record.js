@@ -10,8 +10,6 @@ import styles from "./styles";
 import { COLORS, SIZES } from "../../../components/theme";
 
 const Record = ({ navigation, route }) => {
-  const [token, setToken] = useState();
-
   const [recording, setRecording] = useState();
   const [uri, setUri] = useState();
   const [sound, setSound] = useState();
@@ -34,11 +32,6 @@ const Record = ({ navigation, route }) => {
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
-    })();
-    (async () => {
-      const token = await AsyncStorage.getItem("token");
-
-      setToken(token);
     })();
   }, []);
 

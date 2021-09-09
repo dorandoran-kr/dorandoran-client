@@ -3,7 +3,7 @@ import { View, Button, Text, TouchableOpacity, Image } from "react-native";
 import { Audio } from "expo-av";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
-import { Stopwatch, Timer } from "react-native-stopwatch-timer";
+import { Stopwatch } from "react-native-stopwatch-timer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from "../../../axios";
@@ -45,9 +45,20 @@ const Record = ({ navigation, route }) => {
     })();
   }, []);
 
+  const restart = async () => {
+    setUri();
+    if (sound) await sound.unloadAsync();
+    setSound();
+    setIsPlay(false);
+  }
+
   const startRecording = async () => {
     setIsTimerStart(false);
-    stopSound();
+    setSound();
+    setIsPlay(false);
+    if (sound) {
+      await sound.unloadAsync();
+    }
     try {
       const { recording } = await Audio.Recording.createAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
@@ -72,33 +83,37 @@ const Record = ({ navigation, route }) => {
     setIsStopwatchStart(false);
     setUri(uri);
     setIsRecording(false);
-    console.log(recordTime);
     setAudioTime(recordTime);
   };
 
   const playSound = async () => {
     if (!sound) {
+      console.log('Loading...')
       const { sound } = await Audio.Sound.createAsync({
         uri: uri,
       });
       setSound(sound);
       sound.setIsLoopingAsync(true);
       await sound.playAsync();
+    } else {
+      await sound.playAsync();
     }
+
     setIsPlay(true);
     setIsTimerStart(true);
     setResetTimer(false);
-
-    await sound.playAsync();
   };
 
   const stopSound = async () => {
+    console.log('Stopping...')
     setIsPlay(false);
     setIsTimerStart(false);
     await sound.pauseAsync();
   };
 
   const upload = async () => {
+    restart();
+
     const formData = new FormData();
 
     let uriParts = uri.split(".");
@@ -114,7 +129,7 @@ const Record = ({ navigation, route }) => {
       const res = await axios.post("/uploads", formData);
       const url = res.data.directory
 
-      await axios.post(
+      const resp = await axios.post(
         '/posts',
         {
           title: "",
@@ -125,23 +140,18 @@ const Record = ({ navigation, route }) => {
         },
         {
           headers: {
-            // TODO: fix
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywicGhvbmVOdW1iZXIiOiIwMTAyODE1NDI4MSIsImlhdCI6MTYzMTExNjEyMCwiZXhwIjoxNjMxMjAyNTIwfQ.aE0Nf1V3lcQN7MxA5h1BrtygNjBUDoQc6GMA3GSlHFY"
+            Authorization: token
           }
         }
       );
       navigation.dispatch(
         CommonActions.navigate("End")
       );
+      console.log(resp.data);
     } catch (error) {
       console.error(error);
     }
   };
-
-  const updateTime = (time) => {
-    const a = time.split(':');
-    recordTime = Number(a[0]) * 60 * 60 + Number(a[1]) * 60 + Number(a[2]);
-  }
 
   return (
     <View style={styles.containerfull}>
@@ -182,7 +192,7 @@ const Record = ({ navigation, route }) => {
                   start={isStopwatchStart}
                   reset={resetStopwatch}
                   options={options}
-                  getTime={updateTime}
+                  getTime={() => {}}
                 />
               </View>
 
@@ -211,16 +221,7 @@ const Record = ({ navigation, route }) => {
                     />
                   </View>
                 </View>
-                <Text>{audioTime}</Text>
-                <Timer
-                  totalDuration={audioTime * 1000}
-                  secs
-                  start={isTimerStart}
-                  reset={resetTimer}
-                  options={options}
-                  handleFinish={() => {}}
-                  getTime={(time) => {}}
-                />
+                <View style={{ height: 100 }} />
                 <TouchableOpacity
                   style={styles.record_playbutton}
                   onPress={isPlay ? stopSound : playSound}
@@ -239,7 +240,7 @@ const Record = ({ navigation, route }) => {
                 >
                   <TouchableOpacity
                     style={styles.record_again}
-                    onPress={startRecording}
+                    onPress={restart}
                   >
                     <Icon name="refresh" size={24} color={COLORS.green} />
                     <Text style={styles.record_button_text}>다시하기</Text>                    

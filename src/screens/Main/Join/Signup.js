@@ -28,10 +28,9 @@ const Signup = ({ navigation, route }) => {
         birth,
       });
 
-      if (resp.data) {
-        await AsyncStorage.setItem("token", res.data.token);
-        navigation.navigate("Main");
-      }
+      console.log(resp.data);
+      await AsyncStorage.setItem("token", resp.data.token);
+      navigation.navigate("Home");
     } catch (error) {
       console.log(error);
       setIsSignupFailed(true);
@@ -58,7 +57,7 @@ const Signup = ({ navigation, route }) => {
             onChangeText={onChangeNickname}
             value={nickname}
             placeholder="닉네임을 입력해주세요"
-            keyboardType="visible-password"
+            // keyboardType="visible-password"
             maxLength={21}
           />
         </View>

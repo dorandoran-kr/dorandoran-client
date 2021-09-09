@@ -62,7 +62,12 @@ const Category = ({ navigation, route }) => {
             <View style={Styles.category_list}>
               <View style={Styles.category_textcontainer}>
                 <Text style={Styles.category_text1}>{item.text}</Text>
-                <Text style={Styles.category_text2}>외 명이 답변함</Text>
+                {
+                  item.Posts && 
+                    item.Posts.length === 0 
+                    ? <Text style={Styles.category_text2}>답변을 기다리고 있습니다..</Text>
+                    : <Text style={Styles.category_text2}>{item.Posts && item.Posts[0].User.nickname}외 {item.Posts && item.Posts.length}명이 답변함</Text>
+                }
               </View>
             </View>
           </TouchableOpacity>

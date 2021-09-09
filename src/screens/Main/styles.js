@@ -203,7 +203,11 @@ const Styles = StyleSheet.create({
     flex:3,
     paddingHorizontal:20
   },
-
+  play_like_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.lightGray,
+    fontSize:14,
+  }
 })
 
 export default Styles;

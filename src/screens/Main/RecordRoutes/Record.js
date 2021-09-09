@@ -46,6 +46,8 @@ const Record = ({ navigation, route }) => {
   }, []);
 
   const startRecording = async () => {
+    setIsTimerStart(false);
+    stopSound();
     try {
       const { recording } = await Audio.Recording.createAsync(
         Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
@@ -209,6 +211,7 @@ const Record = ({ navigation, route }) => {
                     />
                   </View>
                 </View>
+                <Text>{audioTime}</Text>
                 <Timer
                   totalDuration={audioTime * 1000}
                   secs

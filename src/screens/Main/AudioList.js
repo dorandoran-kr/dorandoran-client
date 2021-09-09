@@ -19,6 +19,7 @@ import styles from "./RecordRoutes/styles";
 const AudioList = ({ navigation, route }) => {
   const [question, setQuestion] = useState();
   const [posts, setPosts] = useState();
+  const [isLiked, setIsLiked] = useState(false);
 
   const { id } = route.params;
 
@@ -30,6 +31,10 @@ const AudioList = ({ navigation, route }) => {
       setPosts(resp.data.Posts);
     })();
   }, [id]);
+
+  const changeliked = () => {
+    setIsLiked(!isLiked);
+  }
 
   return (
     <View style={Styles.containerfull}>
@@ -43,10 +48,10 @@ const AudioList = ({ navigation, route }) => {
             <Icon name="chevron-back" size={32} color="#000000" />
           </TouchableOpacity>
         </View>
-        <View style={{width:'100%', alignItems:'center'}}>
+        <View style={{ width: '100%', alignItems: 'center' }}>
           <Text style={Styles.header_text}>{question?.text}</Text>
         </View>
-        <View  style={{marginTop:50}}>
+        <View style={{ marginTop: 50 }}>
           <FlatList
             data={posts}
             renderItem={({ item }) => (
@@ -61,13 +66,21 @@ const AudioList = ({ navigation, route }) => {
                   }
                   style={Styles.play_list}
                 >
-                  <View style={{flexDirection:'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={Styles.play_list_ninametext}>{`${item.User?.nickname}`}</Text>
                     <Text style={Styles.play_list_ninametext2}>님의 답변</Text>
                   </View>
                   <View style={Styles.play_list_button_container}>
                     <Icon name="play" size={20} color={COLORS.gray} />
-                    <Icon name="heart-outline" size={20} color={COLORS.gray} />
+                    {isLiked
+                      ? <TouchableOpacity
+                        onPress={changeliked}
+                        style={{ width: 22, height: 22, justifyContent: 'center', alignItems: 'center' }}
+                      ><Icon name="heart" size={20} color={"#E13740"} /></TouchableOpacity>
+                      : <TouchableOpacity
+                        onPress={changeliked}
+                        style={{ width: 22, height: 22, justifyContent: 'center', alignItems: 'center' }}
+                      ><Icon name="heart-outline" size={20} color={COLORS.backgray} /></TouchableOpacity>}
                   </View>
                 </TouchableOpacity>
               </View>

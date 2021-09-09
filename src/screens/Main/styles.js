@@ -201,7 +201,6 @@ const Styles = StyleSheet.create({
   },
   play_button_container:{
     flex:3,
-    marginTop:20,
     paddingHorizontal:20
   },
 

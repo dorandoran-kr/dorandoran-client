@@ -28,6 +28,7 @@ const AudioScreen = ({ navigation, route }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [isPlay, setIsPlay] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const { id } = route.params;
 
@@ -80,6 +81,12 @@ const AudioScreen = ({ navigation, route }) => {
   //     : undefined;
   // }, [sound]);
 
+  const changeliked = () => {
+    setIsLiked(!isLiked);
+
+    // TODO: API 호출
+  }
+
   return (
     <View style={Styles.containerfull}>
       <View style={Styles.whitecontainer}>
@@ -124,14 +131,23 @@ const AudioScreen = ({ navigation, route }) => {
           />  */}
           <Image
             source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126506412KakaoTalk_20210909_033710559.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          /> 
+            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf: 'center' }}
+          />
 
         </View>
         <View style={Styles.play_button_container}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
             <Text style={Styles.play_nickname_text}>{`${post?.User?.nickname}님의 답변입니다`}</Text>
-            <Icon name="heart" size={32} color={COLORS.lightGray} />
+            
+            {isLiked
+              ? <TouchableOpacity
+                onPress={changeliked}
+                style={{ width: 35, height: 35, justifyContent: 'center', alignItems: 'center' }}
+              ><Icon name="heart" size={32} color={"#E13740"} /></TouchableOpacity>
+              : <TouchableOpacity
+                onPress={changeliked}
+                style={{ width: 35, height: 35, justifyContent: 'center', alignItems: 'center' }}
+              ><Icon name="heart" size={32} color={COLORS.lightGray} /></TouchableOpacity>}
           </View>
 
           {/* <TouchableOpacity
@@ -144,7 +160,7 @@ const AudioScreen = ({ navigation, route }) => {
             onPress={sound ? stopSound : playSound}
           /> */}
           <TouchableOpacity
-            style={{ alignSelf: 'center', marginTop: 24 }}
+            style={{ alignSelf: 'center', marginTop: 40 }}
             onPress={isPlay ? stopSound : playSound}
           >
             {isPlay ?

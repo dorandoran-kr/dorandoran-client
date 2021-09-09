@@ -49,11 +49,13 @@ const Record = ({ navigation, route }) => {
     setUri();
     if (sound) await sound.unloadAsync();
     setSound();
+    setIsPlay(false);
   }
 
   const startRecording = async () => {
     setIsTimerStart(false);
     setSound();
+    setIsPlay(false);
     if (sound) {
       await sound.unloadAsync();
     }
@@ -219,6 +221,7 @@ const Record = ({ navigation, route }) => {
                     />
                   </View>
                 </View>
+                <View style={{ height: 100 }} />
                 <TouchableOpacity
                   style={styles.record_playbutton}
                   onPress={isPlay ? stopSound : playSound}

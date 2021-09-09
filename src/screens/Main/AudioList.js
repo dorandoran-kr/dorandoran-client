@@ -10,13 +10,15 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { CommonActions } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Styles from './styles';
 import { COLORS, SIZES } from "../../components/theme";
-
 import axios from "../../axios";
 import styles from "./RecordRoutes/styles";
 
 const AudioList = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [question, setQuestion] = useState();
   const [posts, setPosts] = useState();
   const [isLiked, setIsLiked] = useState(false);
@@ -25,12 +27,21 @@ const AudioList = ({ navigation, route }) => {
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`/questions/${id}`);
+      const token = await AsyncStorage.getItem('token');
+
+      const resp = await axios.get(`/questions/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
 
       setQuestion(resp.data);
       setPosts(resp.data.Posts);
+      setToken(token);
     })();
-  }, [id]);
+    (async () => {
+    })();
+  }, []);
 
   const changeliked = () => {
     setIsLiked(!isLiked);
@@ -42,7 +53,12 @@ const AudioList = ({ navigation, route }) => {
         <View style={Styles.header}>
           <TouchableOpacity
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate('Category'));
+              navigation.dispatch(CommonActions.reset({
+                routes: [{ 
+                  name: 'Category',
+                  params: { id: 3 }
+                }],
+              }));
             }}
           >
             <Icon name="chevron-back" size={32} color="#000000" />
@@ -59,9 +75,15 @@ const AudioList = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={
                     () => {
-                      navigation.dispatch(CommonActions.navigate("AudioScreen", {
-                        id: item.id
-                      }));
+                      navigation.dispatch(CommonActions.reset({
+                        routes: [{
+                          name: 'AudioScreen',
+                          params: {
+                            id: item.id,
+                            questionId: id
+                          }
+                        }]
+                      }))
                     }
                   }
                   style={Styles.play_list}
@@ -72,7 +94,7 @@ const AudioList = ({ navigation, route }) => {
                   </View>
                   <View style={Styles.play_list_button_container}>
                     <Icon name="play" size={20} color={COLORS.gray} />
-                    {isLiked
+                    {item?.Like
                       ? <TouchableOpacity
                         onPress={changeliked}
                         style={{ width: 22, height: 22, justifyContent: 'center', alignItems: 'center' }}

@@ -13,14 +13,15 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { Audio } from "expo-av";
 import { CommonActions } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Styles from './styles';
 import { SIZES, COLORS } from "../../components/theme";
-
 import axios from '../../axios';
 import styles from "./RecordRoutes/styles";
 
 const AudioScreen = ({ navigation, route }) => {
+  const [token, setToken] = useState();
   const [sound, setSound] = useState();
   const [pause, setPause] = useState(false);
   const [open, setOpen] = useState(false);
@@ -30,31 +31,43 @@ const AudioScreen = ({ navigation, route }) => {
   const [isPlay, setIsPlay] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
-  const { id } = route.params;
+  const { id, questionId } = route.params;
 
   useEffect(() => {
     (async () => {
-      const resp = await axios.get(`/posts/${id}`);
+      const token = await AsyncStorage.getItem('token');
+
+      setToken(token);
+      const resp = await axios.get(`/posts/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
 
       setPost(resp.data.post);
       setLikeCount(resp.data.likeCount);
       setCommentCount(resp.data.commentCount);
+      setIsLiked(resp.data.like);
     })();
-  }, [id]);
-
+  }, []);
 
   async function playSound() {
-    if (!sound) {
-      const { sound } = await Audio.Sound.createAsync({
-        uri: "https://dorandoran-audio.s3.ap-northeast-2.amazonaws.com/file_example_MP3_1MG.mp3",
-      });
-      setSound(sound);
-      sound.setIsLoopingAsync(true);
-      await sound.playAsync();
+    try {
+      if (!sound) {
+        const { sound } = await Audio.Sound.createAsync({
+          uri: post?.Records[0]?.audioUrl,
+        });
+        setSound(sound);
+        sound.setIsLoopingAsync(true);
+        await sound.playAsync();
+      } else {
+  
+        await sound.playAsync();
+      }
+      setIsPlay(true);
+    } catch (error) {
+      console.log(error); 
     }
-    setIsPlay(true);
-
-    await sound.playAsync();
   }
 
   async function stopSound() {
@@ -81,10 +94,23 @@ const AudioScreen = ({ navigation, route }) => {
   //     : undefined;
   // }, [sound]);
 
-  const changeliked = () => {
+  const changeliked = async () => {
+    if (isLiked) {
+      await axios.delete(`/likes/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
+      setLikeCount(likeCount - 1);
+    } else {
+      await axios.put(`/likes/${id}`, {
+        headers: {
+          Authorization: token
+        }
+      });
+      setLikeCount(likeCount + 1);
+    }
     setIsLiked(!isLiked);
-
-    // TODO: API 호출
   }
 
   return (
@@ -93,7 +119,12 @@ const AudioScreen = ({ navigation, route }) => {
         <View style={Styles.header}>
           <TouchableOpacity
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate('AudioList'));
+              navigation.dispatch(CommonActions.reset({
+                routes: [{ 
+                  name: 'AudioList',
+                  params: { id: questionId }
+                }],
+              }));
             }}
           >
             <Icon name="close" size={32} color="#000000" />
@@ -101,36 +132,8 @@ const AudioScreen = ({ navigation, route }) => {
         </View>
         <Text style={Styles.play_question_text}>{post?.Question?.text}</Text>
         <View style={Styles.play_rando_container}>
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126320045KakaoTalk_20210909_033815951.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />     */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126359039KakaoTalk_20210909_033544800.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126414690KakaoTalk_20210909_033555598.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126434934KakaoTalk_20210909_033619082.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126451360KakaoTalk_20210909_033631176.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126474595KakaoTalk_20210909_033643139.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
-          {/* <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126492874KakaoTalk_20210909_033657229.png' }}
-            style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf:'center' }}
-          />  */}
           <Image
-            source={{ uri: 'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126506412KakaoTalk_20210909_033710559.png' }}
+            source={{ uri: imageList[likeCount] }}
             style={{ width: 260, height: 300, resizeMode: 'contain', alignSelf: 'center' }}
           />
 
@@ -138,7 +141,7 @@ const AudioScreen = ({ navigation, route }) => {
         <View style={Styles.play_button_container}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
             <Text style={Styles.play_nickname_text}>{`${post?.User?.nickname}님의 답변입니다`}</Text>
-            
+            <Text>{likeCount}</Text>
             {isLiked
               ? <TouchableOpacity
                 onPress={changeliked}
@@ -150,15 +153,6 @@ const AudioScreen = ({ navigation, route }) => {
               ><Icon name="heart" size={32} color={COLORS.lightGray} /></TouchableOpacity>}
           </View>
 
-          {/* <TouchableOpacity
-            onPress={isPlay ? stopSound : playSound}
-          >
-            <Icon name="play" size={42} color={COLORS.gray} />
-          </TouchableOpacity> */}
-          {/* <Button
-            title={sound ? "Pause sound" : "Start sound"}
-            onPress={sound ? stopSound : playSound}
-          /> */}
           <TouchableOpacity
             style={{ alignSelf: 'center', marginTop: 40 }}
             onPress={isPlay ? stopSound : playSound}
@@ -174,5 +168,15 @@ const AudioScreen = ({ navigation, route }) => {
   );
 };
 
+const imageList = [
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126320045KakaoTalk_20210909_033815951.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126359039KakaoTalk_20210909_033544800.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126414690KakaoTalk_20210909_033555598.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126434934KakaoTalk_20210909_033619082.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126451360KakaoTalk_20210909_033631176.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126474595KakaoTalk_20210909_033643139.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126492874KakaoTalk_20210909_033657229.png',
+  'https://yummeal-image.s3.ap-northeast-2.amazonaws.com/original/1631126506412KakaoTalk_20210909_033710559.png',
+]
 
 export default AudioScreen;

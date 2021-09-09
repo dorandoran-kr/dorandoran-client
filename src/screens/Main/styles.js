@@ -114,8 +114,9 @@ const Styles = StyleSheet.create({
     fontFamily:FONTS.NanumSquareB,
     color:COLORS.green2,
     fontSize:20,
-    alignSelf:'center',
+    textAlign:'center',
     marginBottom:12,
+    lineHeight:30,
   },
   categorytext:{
     fontFamily:FONTS.NanumSquareEB,
@@ -155,27 +156,54 @@ const Styles = StyleSheet.create({
     marginTop:24,
     fontSize:12,
   },
+  play_list:{
+    height:72,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    paddingHorizontal:10
+  },
+  play_list_ninametext:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.black,
+    fontSize:20,
+  },
+  play_list_nicknametext2:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.lightGray,
+    fontSize:18,
+  },
+  play_list_timetext:{
 
-  container: {
-    height: 60,
-    flexDirection: 'row',
-    justifyContent: "space-around",
-    padding: 15,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.12,
-    shadowRadius: 5.46,
-    elevation: 9,
   },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+  play_list_button_container:{
+    width:60,
+    flexDirection:'row',
+    justifyContent:'space-between',
   },
+  play_question_text:{
+    fontFamily:FONTS.NanumSquareEB,
+    color:COLORS.gray,
+    fontSize:18,
+    alignSelf:'center'
+  },
+  play_rando_container:{
+    flex:6,
+    backgroundColor:COLORS.skyblue,
+    borderRadius:40,
+    margin:20,
+    justifyContent:'center',
+    // alignItems:'center'
+  },
+  play_nickname_text:{
+    fontFamily:FONTS.NanumSquareB,
+    color:COLORS.gray,
+    fontSize:18,
+  },
+  play_button_container:{
+    flex:3,
+    paddingHorizontal:20
+  },
+
 })
 
 export default Styles;

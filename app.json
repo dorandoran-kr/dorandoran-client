@@ -1,7 +1,9 @@
 {
+  "name": "dorandoran",
+  "displayName": "도란도란",
   "expo": {
-    "name": "dorandoran-client",
-    "slug": "dorandoran-client",
+    "name": "dorandoran",
+    "slug": "dorandoran",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

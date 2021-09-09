@@ -102,7 +102,7 @@ const AudioScreen = ({ navigation, route }) => {
       });
       setLikeCount(likeCount - 1);
     } else {
-      await axios.put(`/likes/${id}`, {
+      await axios.get(`/likes/${id}`, {
         headers: {
           Authorization: token,
         },

@@ -18,48 +18,6 @@ import styles from "./styles";
 import { COLORS, SIZES } from '../../../components/theme'
 
 const End = ({ navigation, route }) => {
-  const [token, setToken] = useState();
-  const [title, onChangeTitle] = useState("");
-  const [description, onChangeDescription] = useState("");
-
-  const [isEnd, setEnd] = useState(false);
-  const [isError, setError] = useState(false);
-
-  const { questionId, url } = route.params;
-
-  useEffect(() => {
-    (async () => {
-      const token = await AsyncStorage.getItem('token');
-
-      setToken(token);
-    })();
-  }, [])
-
-  const createPost = async () => {
-    try {
-      const resp = await axios.post(
-        '/posts',
-        {
-          title: title,
-          description: description,
-          thumbnailUrl: "",
-          questionId,
-          url: url
-        },
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-      );
-
-      setEnd(true);
-    } catch (error) {
-      setError(true);
-      console.error(error);
-    }
-  }
-
   return (
     <View style={styles.containerfull}>
       <View style={styles.whitecontainer}>
@@ -86,7 +44,7 @@ const End = ({ navigation, route }) => {
           <TouchableOpacity 
             style={styles.green_longbutton} 
             onPress={() => {
-              navigation.dispatch(CommonActions.navigate('Category', {id: 4})) }}
+              navigation.dispatch(CommonActions.navigate('Start')) }}
           >
             <Text style={styles.green_longbutton_text}>계속 하기</Text>
           </TouchableOpacity>

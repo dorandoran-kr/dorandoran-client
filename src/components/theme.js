@@ -29,8 +29,8 @@ export const SIZES = {
 
 }
 
-const getFonts = () => {
-	return Font.loadAsync({
+const getFonts = async () => {
+	return await Font.loadAsync({
 		'NEXONLv1GothicRegular': require('../../assets/fonts/NEXONLv1GothicRegular.ttf'),
 		'NanumSquareR': require('../../assets/fonts/NanumSquareR.ttf'),
 		'NanumSquareL': require('../../assets/fonts/NanumSquareL.ttf'),

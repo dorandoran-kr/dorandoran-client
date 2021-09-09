@@ -12,6 +12,7 @@ const Home = ({ navigation }) => {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
   const [categories, setCategories] = useState();
+  const [question, setQuestion] = useState();
 
   useEffect(() => {
     (async () => {
@@ -23,6 +24,11 @@ const Home = ({ navigation }) => {
       const token = await AsyncStorage.getItem('token');
 
       setToken(token);
+    })();
+    (async () => {
+      const resp = await axios.get('/questions/today');
+
+      setQuestion(resp.data[0]);
     })();
   }, []);
 
@@ -65,10 +71,20 @@ const Home = ({ navigation }) => {
         </View>
       </View>
       <View style={Styles.main_whitecontainer}>
-        <View style={Styles.main_whitecontainer_box}>
-          <Text style={Styles.main_whitecontainer_text}>오늘의 질문</Text>
-          <Text style={Styles.main_whitecontainer_text2}>Q. 질문 어쩌구 받아올까 그러면 ㄴ될거 같은데</Text>
-        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Record', {
+            screen: 'Record',
+            params: {
+              questionId: question?.id,
+              question: question?.text
+            }
+          })}
+        >
+          <View style={Styles.main_whitecontainer_box}>
+            <Text style={Styles.main_whitecontainer_text}>오늘의 질문</Text>
+            <Text style={Styles.main_whitecontainer_text2}>Q. {question?.text}</Text>
+          </View>
+        </TouchableOpacity>
         <Text style={Styles.main_category_text}>다른 이야기도 들어보세요</Text>
         <FlatList
           data={categories}
